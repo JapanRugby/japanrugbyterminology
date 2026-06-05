@@ -17,6 +17,13 @@
     }
 
     * { box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      position: relative;
+    }
+
 
     body {
       margin: 0;
@@ -114,6 +121,17 @@
       color: rgba(255,250,246,.82);
       font-size: 15px;
       line-height: 1.8;
+    }
+
+    .hero,
+    .wrap,
+    header,
+    main {
+      max-width: 100%;
+    }
+
+    .hero {
+      overflow-x: hidden;
     }
 
     .controls {
@@ -474,16 +492,23 @@
       .searchbox input { min-height: 54px; border-radius: 18px; padding: 15px 50px 15px 16px; font-size: 16px; }
       .clear-btn { width: 100%; min-height: 48px; border-radius: 16px; padding: 12px 16px; }
       .categories {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
         flex-wrap: nowrap;
         overflow-x: auto;
+        overflow-y: hidden;
         gap: 8px;
-        margin: 14px -16px -2px;
-        padding: 0 16px 8px;
+        margin: 14px 0 -2px;
+        padding: 0 0 8px;
         scroll-snap-type: x proximity;
         -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        touch-action: pan-x;
+        contain: layout paint;
       }
       .categories::-webkit-scrollbar { display: none; }
-      .chip { flex: 0 0 auto; min-height: 40px; padding: 9px 12px; font-size: 12px; white-space: nowrap; }
+      .chip { flex: 0 0 auto; min-height: 40px; padding: 9px 12px; font-size: 12px; white-space: nowrap; scroll-snap-align: start; }
       .grid { grid-template-columns: 1fr; gap: 12px; }
       .card { min-height: unset; padding: 16px; border-radius: 20px; gap: 11px; }
       .card:hover { transform: none; }
@@ -504,14 +529,13 @@
       <section class="hero">
         <div class="eyebrow">Japan Rugby • Bilingual Playbook</div>
         <h1>Terminology</h1>
-        <p class="subtitle">日本語と英語を併記したプレー用語集。コール名・説明・カテゴリからすばやく検索し、動画リファレンスにも即アクセスできます。</p>
 
         <div class="controls">
           <div class="searchbox">
             <input id="searchInput" type="search" autocomplete="off" placeholder="例: Red / タックル / kick / scrum" />
             <span class="search-icon">⌕</span>
           </div>
-          <button class="clear-btn" id="clearBtn" type="button">クリア</button>
+          <button class="clear-btn" id="clearBtn" type="button">Clear</button>
         </div>
 
         <div class="categories" id="categoryChips" aria-label="Category filter"></div>
@@ -2450,7 +2474,7 @@ function filteredPlays() {
 }
 
 function renderCategories() {
-  const chips = [`<button type="button" class="chip ${state.category === "all" ? "active" : ""}" data-category="all">すべて</button>`];
+  const chips = [`<button type="button" class="chip ${state.category === "all" ? "active" : ""}" data-category="all">All</button>`];
   for (const category of getCategories()) {
     chips.push(`<button type="button" class="chip ${state.category === category ? "active" : ""}" data-category="${escapeHTML(category)}" style="${chipVars(category)}">${escapeHTML(category)}</button>`);
   }
@@ -2460,10 +2484,6 @@ function renderCategories() {
     chip.addEventListener("click", () => {
       state.category = chip.dataset.category;
       render();
-      requestAnimationFrame(() => {
-        const activeChip = document.querySelector(".chip.active");
-        if (activeChip) activeChip.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-      });
     });
   });
 }
