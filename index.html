@@ -7,13 +7,11 @@
   <style>
     :root {
       --bg: #f7f2ec;
-      --panel: rgba(255,255,255,.92);
       --text: #161616;
       --muted: #6b6762;
       --line: rgba(125, 27, 43, .12);
       --accent: #8c1530;
-      --accent-2: #c69a4b;
-      --accent-3: #1d1d1f;
+      --gold: #c69a4b;
       --shadow: 0 18px 44px rgba(32, 18, 16, .10);
       --shadow-strong: 0 28px 60px rgba(59, 17, 22, .16);
     }
@@ -22,9 +20,9 @@
 
     body {
       margin: 0;
+      min-height: 100vh;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", Roboto, Helvetica, Arial, sans-serif;
       color: var(--text);
-      min-height: 100vh;
       background:
         radial-gradient(circle at top left, rgba(198,154,75,.16), transparent 28rem),
         radial-gradient(circle at top right, rgba(140,21,48,.14), transparent 24rem),
@@ -36,7 +34,7 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      opacity: .22;
+      opacity: .18;
       background-image:
         linear-gradient(90deg, rgba(255,255,255,.55) 1px, transparent 1px),
         linear-gradient(0deg, rgba(255,255,255,.38) 1px, transparent 1px);
@@ -77,18 +75,6 @@
       z-index: -1;
     }
 
-    .hero::after {
-      content: "";
-      position: absolute;
-      width: 520px;
-      height: 220px;
-      left: -120px;
-      bottom: -110px;
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(255,255,255,.12) 0%, rgba(255,255,255,.04) 46%, transparent 74%);
-      z-index: -1;
-    }
-
     .eyebrow {
       display: inline-flex;
       align-items: center;
@@ -111,7 +97,7 @@
       width: 8px;
       height: 8px;
       border-radius: 999px;
-      background: linear-gradient(180deg, #fff4d3, var(--accent-2));
+      background: linear-gradient(180deg, #fff4d3, var(--gold));
       box-shadow: 0 0 0 4px rgba(198,154,75,.14);
     }
 
@@ -168,7 +154,6 @@
       transform: translateY(-50%);
       color: var(--accent);
       font-size: 18px;
-      opacity: .86;
       pointer-events: none;
     }
 
@@ -177,7 +162,7 @@
       border-radius: 18px;
       padding: 15px 18px;
       background: linear-gradient(180deg, #fefaf3 0%, #f1e2bf 100%);
-      color: var(--accent-3);
+      color: #1d1d1f;
       font-weight: 800;
       font-size: 14px;
       cursor: pointer;
@@ -198,9 +183,8 @@
     }
 
     .chip {
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.10);
-      color: rgba(255,250,246,.84);
+      border: 1px solid rgba(255,255,255,.18);
+      color: rgba(255,250,246,.92);
       border-radius: 999px;
       padding: 10px 14px;
       font-size: 13px;
@@ -208,20 +192,25 @@
       cursor: pointer;
       backdrop-filter: blur(8px);
       transition: transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+      background: rgba(255,255,255,.10);
     }
 
     .chip:hover {
       transform: translateY(-1px);
-      background: rgba(255,255,255,.16);
+      background: rgba(255,255,255,.18);
       color: #fff;
     }
 
     .chip.active {
-      background: linear-gradient(180deg, #fffaf3 0%, #f0dec0 100%);
-      border-color: rgba(255,255,255,.38);
+      background: var(--chip-accent, #fffaf3);
+      border-color: rgba(255,255,255,.48);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(0,0,0,.16);
+    }
+
+    .chip[data-category="all"].active {
       color: var(--accent);
-      box-shadow: 0 12px 24px rgba(0,0,0,.14);
+      background: linear-gradient(180deg, #fffaf3 0%, #f0dec0 100%);
     }
 
     main {
@@ -230,7 +219,6 @@
 
     .resultbar {
       margin: 18px 0 14px;
-      min-height: 1px;
       color: var(--accent);
       font-size: 13px;
       font-weight: 800;
@@ -247,10 +235,13 @@
     }
 
     .card {
+      --cat-accent: var(--accent);
+      --cat-soft: #f6e8ec;
+      --cat-pale: #fbf4f6;
       position: relative;
       overflow: hidden;
-      background: linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.92) 100%);
-      border: 1px solid rgba(125, 27, 43, .10);
+      background: linear-gradient(180deg, rgba(255,255,255,.98) 0%, var(--cat-pale) 100%);
+      border: 1px solid var(--cat-soft);
       border-radius: 24px;
       padding: 20px;
       box-shadow: var(--shadow);
@@ -267,24 +258,13 @@
       left: 0;
       right: 0;
       top: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
-    }
-
-    .card::after {
-      content: "";
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      right: -70px;
-      top: -90px;
-      background: radial-gradient(circle, rgba(140,21,48,.06), transparent 70%);
-      pointer-events: none;
+      height: 5px;
+      background: linear-gradient(90deg, var(--cat-accent), var(--gold));
     }
 
     .card:hover {
       transform: translateY(-4px);
-      border-color: rgba(125, 27, 43, .20);
+      border-color: var(--cat-accent);
       box-shadow: 0 24px 42px rgba(34, 24, 16, .12);
     }
 
@@ -301,14 +281,14 @@
       line-height: 1.15;
       letter-spacing: -.03em;
       word-break: break-word;
-      color: #111111;
+      color: #111;
     }
 
     .category {
       flex-shrink: 0;
-      color: #7c1630;
-      background: linear-gradient(180deg, rgba(140,21,48,.08) 0%, rgba(140,21,48,.12) 100%);
-      border: 1px solid rgba(140,21,48,.12);
+      color: var(--cat-accent);
+      background: var(--cat-soft);
+      border: 1px solid var(--cat-soft);
       padding: 6px 10px;
       border-radius: 999px;
       font-size: 12px;
@@ -324,24 +304,24 @@
     .lang-block {
       position: relative;
       padding: 12px 13px;
-      border: 1px solid rgba(125,27,43,.10);
+      border: 1px solid var(--cat-soft);
       border-radius: 16px;
-      background: rgba(255,255,255,.62);
+      background: rgba(255,255,255,.66);
     }
 
     .jp-block {
-      background: linear-gradient(180deg, rgba(140,21,48,.045), rgba(255,255,255,.66));
+      background: linear-gradient(180deg, var(--cat-soft), rgba(255,255,255,.74));
     }
 
     .en-block {
-      background: linear-gradient(180deg, rgba(198,154,75,.08), rgba(255,255,255,.66));
+      background: linear-gradient(180deg, rgba(198,154,75,.10), rgba(255,255,255,.74));
     }
 
     .label {
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      color: var(--accent);
+      color: var(--cat-accent);
       font-size: 11px;
       font-weight: 900;
       text-transform: uppercase;
@@ -354,8 +334,8 @@
       width: 7px;
       height: 7px;
       border-radius: 999px;
-      background: var(--accent-2);
-      box-shadow: 0 0 0 4px rgba(198,154,75,.12);
+      background: var(--cat-accent);
+      box-shadow: 0 0 0 4px var(--cat-soft);
     }
 
     .primary-text {
@@ -363,6 +343,26 @@
       font-size: 16px;
       line-height: 1.72;
       white-space: pre-wrap;
+    }
+
+    .media {
+      display: grid;
+      gap: 10px;
+    }
+
+    .images {
+      display: grid;
+      gap: 8px;
+    }
+
+    .images img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: contain;
+      background: #fff;
+      border: 1px solid var(--cat-soft);
+      border-radius: 16px;
+      padding: 6px;
     }
 
     .links {
@@ -381,18 +381,16 @@
       justify-content: center;
       width: 44px;
       height: 44px;
-      border: 1px solid rgba(140,21,48,.14);
-      background: linear-gradient(180deg, rgba(140,21,48,.06) 0%, rgba(198,154,75,.12) 100%);
-      color: var(--accent);
+      border: 1px solid var(--cat-soft);
+      background: linear-gradient(180deg, var(--cat-soft), rgba(198,154,75,.12));
+      color: var(--cat-accent);
       border-radius: 999px;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+      transition: transform .15s ease, box-shadow .15s ease;
       box-shadow: 0 6px 14px rgba(15, 23, 42, .06);
     }
 
     .links a:hover {
       transform: translateY(-1px) scale(1.03);
-      background: linear-gradient(180deg, rgba(140,21,48,.10) 0%, rgba(198,154,75,.18) 100%);
-      border-color: rgba(140,21,48,.24);
       box-shadow: 0 12px 22px rgba(140,21,48,.16);
     }
 
@@ -411,7 +409,7 @@
       height: 17px;
       padding: 0 4px;
       border-radius: 999px;
-      background: linear-gradient(180deg, var(--accent) 0%, #6d0f24 100%);
+      background: var(--cat-accent);
       color: #fff;
       font-size: 10px;
       font-weight: 800;
@@ -452,7 +450,6 @@
       color: inherit;
       padding: 0 3px;
       border-radius: 4px;
-      box-shadow: inset 0 -1px 0 rgba(198,154,75,.30);
     }
 
     @media (max-width: 1100px) {
@@ -466,64 +463,16 @@
           linear-gradient(180deg, #f8f3ee 0%, #fbf8f4 100%);
       }
 
-      body::before {
-        opacity: .16;
-        background-size: 22px 22px;
-      }
-
-      header {
-        padding: max(12px, env(safe-area-inset-top)) 10px 10px;
-      }
-
-      main {
-        padding: 0 10px max(28px, env(safe-area-inset-bottom));
-      }
-
+      header { padding: max(12px, env(safe-area-inset-top)) 10px 10px; }
+      main { padding: 0 10px max(28px, env(safe-area-inset-bottom)); }
       .wrap { width: 100%; }
-
-      .hero {
-        padding: 16px;
-        border-radius: 24px;
-        box-shadow: 0 18px 36px rgba(59, 17, 22, .18);
-      }
-
-      .eyebrow {
-        margin-bottom: 10px;
-        padding: 7px 11px;
-        font-size: 9px;
-        letter-spacing: .15em;
-      }
-
-      h1 {
-        font-size: clamp(34px, 12vw, 46px);
-      }
-
-      .subtitle {
-        margin-top: 10px;
-        font-size: 13px;
-        line-height: 1.65;
-      }
-
-      .controls {
-        grid-template-columns: 1fr;
-        gap: 9px;
-        margin-top: 16px;
-      }
-
-      .searchbox input {
-        min-height: 54px;
-        border-radius: 18px;
-        padding: 15px 50px 15px 16px;
-        font-size: 16px;
-      }
-
-      .clear-btn {
-        width: 100%;
-        min-height: 48px;
-        border-radius: 16px;
-        padding: 12px 16px;
-      }
-
+      .hero { padding: 16px; border-radius: 24px; }
+      .eyebrow { margin-bottom: 10px; padding: 7px 11px; font-size: 9px; letter-spacing: .15em; }
+      h1 { font-size: clamp(34px, 12vw, 46px); }
+      .subtitle { margin-top: 10px; font-size: 13px; line-height: 1.65; }
+      .controls { grid-template-columns: 1fr; gap: 9px; margin-top: 16px; }
+      .searchbox input { min-height: 54px; border-radius: 18px; padding: 15px 50px 15px 16px; font-size: 16px; }
+      .clear-btn { width: 100%; min-height: 48px; border-radius: 16px; padding: 12px 16px; }
       .categories {
         flex-wrap: nowrap;
         overflow-x: auto;
@@ -533,90 +482,19 @@
         scroll-snap-type: x proximity;
         -webkit-overflow-scrolling: touch;
       }
-
       .categories::-webkit-scrollbar { display: none; }
-
-      .chip {
-        flex: 0 0 auto;
-        min-height: 40px;
-        padding: 9px 12px;
-        font-size: 12px;
-        scroll-snap-align: start;
-        white-space: nowrap;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-
-      .card {
-        min-height: unset;
-        padding: 16px;
-        border-radius: 20px;
-        gap: 11px;
-        box-shadow: 0 12px 28px rgba(34, 24, 16, .08);
-      }
-
+      .chip { flex: 0 0 auto; min-height: 40px; padding: 9px 12px; font-size: 12px; white-space: nowrap; }
+      .grid { grid-template-columns: 1fr; gap: 12px; }
+      .card { min-height: unset; padding: 16px; border-radius: 20px; gap: 11px; }
       .card:hover { transform: none; }
-
-      .card-top {
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .name {
-        font-size: 23px;
-        line-height: 1.12;
-      }
-
-      .category {
-        align-self: flex-start;
-        max-width: 100%;
-        white-space: normal;
-        line-height: 1.25;
-      }
-
-      .language-pair { gap: 9px; }
-
-      .lang-block {
-        padding: 11px 12px;
-        border-radius: 15px;
-      }
-
-      .label {
-        font-size: 10px;
-        margin-bottom: 5px;
-      }
-
-      .primary-text {
-        font-size: 15.5px;
-        line-height: 1.62;
-      }
-
-      .links a {
-        width: 48px;
-        height: 48px;
-      }
-
-      .video-icon {
-        width: 22px;
-        height: 22px;
-      }
-    }
-
-    @media (max-width: 380px) {
-      .hero { padding: 14px; }
-      h1 { font-size: 34px; }
-      .subtitle { font-size: 12.5px; }
-      .name { font-size: 21px; }
-      .primary-text { font-size: 15px; }
-      .categories {
-        margin-left: -14px;
-        margin-right: -14px;
-        padding-left: 14px;
-        padding-right: 14px;
-      }
+      .card-top { flex-direction: column; gap: 8px; }
+      .name { font-size: 23px; line-height: 1.12; }
+      .category { align-self: flex-start; white-space: normal; line-height: 1.25; }
+      .lang-block { padding: 11px 12px; border-radius: 15px; }
+      .label { font-size: 10px; margin-bottom: 5px; }
+      .primary-text { font-size: 15.5px; line-height: 1.62; }
+      .links a { width: 48px; height: 48px; }
+      .video-icon { width: 22px; height: 22px; }
     }
   </style>
 </head>
@@ -624,11 +502,9 @@
   <header>
     <div class="wrap">
       <section class="hero">
-        <div>
-          <div class="eyebrow">Japan Rugby • Bilingual Playbook</div>
-          <h1 id="pageTitle">Terminology</h1>
-          <p class="subtitle" id="subtitle">日本語と英語を併記したプレー用語集。コール名・説明・カテゴリからすばやく検索し、動画リファレンスにも即アクセスできます。</p>
-        </div>
+        <div class="eyebrow">Japan Rugby • Bilingual Playbook</div>
+        <h1>Terminology</h1>
+        <p class="subtitle">日本語と英語を併記したプレー用語集。コール名・説明・カテゴリからすばやく検索し、動画リファレンスにも即アクセスできます。</p>
 
         <div class="controls">
           <div class="searchbox">
@@ -647,7 +523,7 @@
     <div class="wrap">
       <div class="resultbar" id="activeInfo"></div>
       <section id="cards" class="grid"></section>
-      <div id="empty" class="empty">該当するプレーがありません。</div>
+      <div id="empty" class="empty">該当するプレーがありません。</div>
     </div>
   </main>
 
@@ -656,1538 +532,1723 @@ const PLAYS = [
   {
     "category": "Attack Philosophy",
     "name": "Cho Soku",
-    "english": "“Super Fast”",
-    "japanese": "“Super Fast”",
-    "urls": []
+    "english": "\u201cSuper Fast\u201d",
+    "japanese": "\u201cSuper Fast\u201d",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Attack Philosophy",
     "name": "Speed To Set",
     "english": "Get into position",
-    "japanese": "ポジションに入る",
-    "urls": []
+    "japanese": "\u30dd\u30b8\u30b7\u30e7\u30f3\u306b\u5165\u308b",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Attack Philosophy",
     "name": "X",
     "english": "Vacuum (1pass)",
-    "japanese": "相手DF 1-4のニアサイド",
+    "japanese": "\u76f8\u624bDF 1-4\u306e\u30cb\u30a2\u30b5\u30a4\u30c9",
     "urls": [
       "https://app.box.com/s/ksv7kho23cv4yh8sfy8vhzbih8jijbn6"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Attack Philosophy",
     "name": "Y",
     "english": "Midfield (2pass)",
-    "japanese": "ミドルフィールド",
+    "japanese": "\u30df\u30c9\u30eb\u30d5\u30a3\u30fc\u30eb\u30c9",
     "urls": [
       "https://app.box.com/s/nzvx4kyxnkj4w0jblafazvw5rh5x8po2"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Attack Philosophy",
     "name": "Z",
     "english": "Wide (3pass)",
-    "japanese": "ワイド",
+    "japanese": "\u30ef\u30a4\u30c9",
     "urls": [
       "https://app.box.com/s/h9lu8z1z9ppomj4snrxjynbnffmk497s"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Attack Philosophy",
     "name": "Short",
     "english": "Shortest part of the pitch",
-    "japanese": "ピッチの狭い方",
-    "urls": []
+    "japanese": "\u30d4\u30c3\u30c1\u306e\u72ed\u3044\u65b9",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Attack Philosophy",
     "name": "Edge",
     "english": "Inside 15m channel",
-    "japanese": "15ｍライン外側",
-    "urls": []
+    "japanese": "15\uff4d\u30e9\u30a4\u30f3\u5916\u5074",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Attack Philosophy",
     "name": "Long",
     "english": "Longest part of the pitch",
-    "japanese": "ピッチの広い方",
-    "urls": []
+    "japanese": "\u30d4\u30c3\u30c1\u306e\u5e83\u3044\u65b9",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Attack Philosophy",
     "name": "Jumme",
     "english": "Same way attack",
-    "japanese": "順目へのアタック",
-    "urls": []
+    "japanese": "\u9806\u76ee\u3078\u306e\u30a2\u30bf\u30c3\u30af",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Attack Philosophy",
     "name": "Gyaku",
     "english": "Change Direction",
-    "japanese": "反対サイドへのアタック",
+    "japanese": "\u53cd\u5bfe\u30b5\u30a4\u30c9\u3078\u306e\u30a2\u30bf\u30c3\u30af",
     "urls": [
       "https://app.box.com/s/c6650jn4z51xyrnbijwrmbxde2k9o1nd"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Attack Philosophy",
     "name": "11",
     "english": "1 carry - change of direction",
-    "japanese": "1回キャリー→反対サイド",
+    "japanese": "1\u56de\u30ad\u30e3\u30ea\u30fc\u2192\u53cd\u5bfe\u30b5\u30a4\u30c9",
     "urls": [
       "https://app.box.com/s/c6650jn4z51xyrnbijwrmbxde2k9o1nd"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Attack Philosophy",
     "name": "21",
     "english": "2 carries - change of direction",
-    "japanese": "2回キャリー→反対サイド",
-    "urls": []
+    "japanese": "2\u56de\u30ad\u30e3\u30ea\u30fc\u2192\u53cd\u5bfe\u30b5\u30a4\u30c9",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Attack Philosophy",
     "name": "Tenkai",
     "english": "Space on the edge - 1st back is tight",
-    "japanese": "外にスペースがあるとき",
-    "urls": []
+    "japanese": "\u5916\u306b\u30b9\u30da\u30fc\u30b9\u304c\u3042\u308b\u3068\u304d",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Attack Philosophy",
     "name": "Man naka",
     "english": "Attack through the middle",
-    "japanese": "グラウンド中のスペースをアタック",
-    "urls": []
+    "japanese": "\u30b0\u30e9\u30a6\u30f3\u30c9\u4e2d\u306e\u30b9\u30da\u30fc\u30b9\u3092\u30a2\u30bf\u30c3\u30af",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Attack Philosophy",
     "name": "Spark",
     "english": "Transition",
-    "japanese": "トランジション",
-    "urls": []
+    "japanese": "\u30c8\u30e9\u30f3\u30b8\u30b7\u30e7\u30f3",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Breakdown",
     "name": "Tatakai",
-    "english": "",
-    "japanese": "ファイトし続ける",
+    "english": "Stay in Fight",
+    "japanese": "\u30d5\u30a1\u30a4\u30c8\u3057\u7d9a\u3051\u308b",
     "urls": [
       "https://app.box.com/s/jlvzk94q707sr4gm3a5yccg5zb97mol5"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Breakdown",
     "name": "Feet",
-    "english": "",
-    "japanese": "タックルに入られる時のキャリアーのフットワーク",
-    "urls": []
+    "english": "Carrier footwork into the tackle",
+    "japanese": "\u30bf\u30c3\u30af\u30eb\u306b\u5165\u3089\u308c\u308b\u6642\u306e\u30ad\u30e3\u30ea\u30a2\u30fc\u306e\u30d5\u30c3\u30c8\u30ef\u30fc\u30af",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Breakdown",
     "name": "Fight",
-    "english": "",
-    "japanese": "レッグドライブ、上半身のファイト",
+    "english": "Leg drive / upper body fight",
+    "japanese": "\u30ec\u30c3\u30b0\u30c9\u30e9\u30a4\u30d6\u3001\u4e0a\u534a\u8eab\u306e\u30d5\u30a1\u30a4\u30c8",
     "urls": [
       "https://app.box.com/s/tjws8i6e19domdtyzgtn63tor6fydgvm"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Breakdown",
     "name": "Renda",
-    "english": "",
-    "japanese": "凶暴なボールプレゼンテーション",
+    "english": "Violent Ball present",
+    "japanese": "\u51f6\u66b4\u306a\u30dc\u30fc\u30eb\u30d7\u30ec\u30bc\u30f3\u30c6\u30fc\u30b7\u30e7\u30f3",
     "urls": [
       "https://app.box.com/s/xd7f66v2s3wbr6rpx2vvujws2xz58eeh",
       "https://app.box.com/s/cqu3hhzcd61008r63hx7cwtsptcj2qdu",
       "https://app.box.com/s/ds158iqfp99mjcjor0cum7rmcoekx9qu"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Breakdown",
     "name": "Kame",
-    "english": "",
-    "japanese": "カメラック",
-    "urls": []
+    "english": "Turtle Ruck",
+    "japanese": "\u30ab\u30e1\u30e9\u30c3\u30af",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Breakdown",
     "name": "Bane",
-    "english": "",
-    "japanese": "内側のサポート　ボールを越える",
+    "english": "Inside support past the ball",
+    "japanese": "\u5185\u5074\u306e\u30b5\u30dd\u30fc\u30c8\u3000\u30dc\u30fc\u30eb\u3092\u8d8a\u3048\u308b",
     "urls": [
       "https://app.box.com/s/r6yq3grjig3u65cawocwsot6nn4ysplx"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Breakdown",
     "name": "Katana",
-    "english": "",
-    "japanese": "外側のサポート　ディフェンスを倒す",
+    "english": "Outside support clean the corner - defender off feet",
+    "japanese": "\u5916\u5074\u306e\u30b5\u30dd\u30fc\u30c8\u3000\u30c7\u30a3\u30d5\u30a7\u30f3\u30b9\u3092\u5012\u3059",
     "urls": [
       "https://app.box.com/s/9c8kb0hst4r19bsb42ra3ahkp1lcqe63"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Breakdown",
     "name": "Momo",
-    "english": "",
-    "japanese": "太ももターゲット",
-    "urls": []
+    "english": "Target thighs",
+    "japanese": "\u592a\u3082\u3082\u30bf\u30fc\u30b2\u30c3\u30c8",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Breakdown",
     "name": "Kamae",
-    "english": "",
-    "japanese": "闘い　ファイティングポジション",
-    "urls": []
+    "english": "Combat - Fighting position (Diagram)",
+    "japanese": "\u95d8\u3044\u3000\u30d5\u30a1\u30a4\u30c6\u30a3\u30f3\u30b0\u30dd\u30b8\u30b7\u30e7\u30f3",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Breakdown",
     "name": "Nikai",
-    "english": "",
-    "japanese": "キルしてダブルアクション　次のラックへ",
+    "english": "Kill cleaner double action to 2nd ruck",
+    "japanese": "\u30ad\u30eb\u3057\u3066\u30c0\u30d6\u30eb\u30a2\u30af\u30b7\u30e7\u30f3\u3000\u6b21\u306e\u30e9\u30c3\u30af\u3078",
     "urls": [
       "https://app.box.com/s/6uiuvm8pz72jk1chr7tcy4bjartfnuot"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Breakdown",
     "name": "Sabaki",
-    "english": "",
-    "japanese": "ラックからの良いテンポでの捌き",
-    "urls": []
+    "english": "Good tempo delivery from the ruck",
+    "japanese": "\u30e9\u30c3\u30af\u304b\u3089\u306e\u826f\u3044\u30c6\u30f3\u30dd\u3067\u306e\u634c\u304d",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Breakdown",
     "name": "Geese",
-    "english": "",
-    "japanese": "アンストラクチャーブレイクダウンサポート　背番号が見える位置から",
+    "english": "Unstrucuture Breakdown Support -  a position where you can see the jersey number",
+    "japanese": "\u30a2\u30f3\u30b9\u30c8\u30e9\u30af\u30c1\u30e3\u30fc\u30d6\u30ec\u30a4\u30af\u30c0\u30a6\u30f3\u30b5\u30dd\u30fc\u30c8\u3000\u80cc\u756a\u53f7\u304c\u898b\u3048\u308b\u4f4d\u7f6e\u304b\u3089",
     "urls": [
       "https://app.box.com/s/cv7e1xh5q6fi1u474vxcce43g77kn7na"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Breakdown",
     "name": "Himeno",
-    "english": "",
-    "japanese": "ボールを置いて、立ち上がり、再度拾って全身",
+    "english": "Place the ball, stand up, and go forward again.",
+    "japanese": "\u30dc\u30fc\u30eb\u3092\u7f6e\u3044\u3066\u3001\u7acb\u3061\u4e0a\u304c\u308a\u3001\u518d\u5ea6\u62fe\u3063\u3066\u5168\u8eab",
     "urls": [
       "https://app.box.com/s/4m1j35a7z6olhtqhru4uda2z8frhwewb"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Contest",
     "name": "Choke",
-    "english": "",
-    "japanese": "チョークタックル",
+    "english": "Hold them up in the tackle, hips under",
+    "japanese": "\u30c1\u30e7\u30fc\u30af\u30bf\u30c3\u30af\u30eb",
     "urls": [
       "https://app.box.com/s/zdyk35uo2b3tvvjyt2emn3067vj0nh4u"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Contest",
     "name": "Rip",
-    "english": "",
-    "japanese": "タックル時にボールを奪おうとする",
-    "urls": []
+    "english": "Ball steal attempt in the tackle",
+    "japanese": "\u30bf\u30c3\u30af\u30eb\u6642\u306b\u30dc\u30fc\u30eb\u3092\u596a\u304a\u3046\u3068\u3059\u308b",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Contest",
     "name": "Jackal",
-    "english": "",
-    "japanese": "ジャッカル",
+    "english": "Ball steal attempt",
+    "japanese": "\u30b8\u30e3\u30c3\u30ab\u30eb",
     "urls": [
       "https://app.box.com/s/i2xazm52ukysliblv6p9op9167pwlu08"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Contest",
     "name": "Zero",
-    "english": "",
-    "japanese": "ラックに入らない",
+    "english": "Stay out the ruck",
+    "japanese": "\u30e9\u30c3\u30af\u306b\u5165\u3089\u306a\u3044",
     "urls": [
       "https://app.box.com/s/ikva1b8rkywy9hayp5w4er6rncxaskic"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Contest",
     "name": "Blast",
-    "english": "",
-    "japanese": "カウンターラック",
+    "english": "Counter ruck",
+    "japanese": "\u30ab\u30a6\u30f3\u30bf\u30fc\u30e9\u30c3\u30af",
     "urls": [
       "https://app.box.com/s/ijuibv7mhvozdvq95wvq5ofjmpn01ul8"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Contest",
     "name": "Go byou (5 sec)",
-    "english": "",
-    "japanese": "相手のスピードを遅らせる",
+    "english": "Slow down opposition speed",
+    "japanese": "\u76f8\u624b\u306e\u30b9\u30d4\u30fc\u30c9\u3092\u9045\u3089\u305b\u308b",
     "urls": [
       "https://app.box.com/s/yqbkgztfm7h3gynfwavgeyd5wku6fcky"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
-    "name": "5-2-2",
-    "english": "",
-    "japanese": "最初の5歩、2人でタックル、2人フォールド",
+    "name": "2005/2/2",
+    "english": "1st 5 steps hard / 2 in the tackle / 2 fold",
+    "japanese": "\u6700\u521d\u306e5\u6b69\u30012\u4eba\u3067\u30bf\u30c3\u30af\u30eb\u30012\u4eba\u30d5\u30a9\u30fc\u30eb\u30c9",
     "urls": [
       "https://app.box.com/s/13j5g4dx7mt2xhg51ok5alf9mn6chgqm"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "1st 5 steps",
-    "english": "",
-    "japanese": "激しい最初の5歩",
+    "english": "Hard First 5 Steps",
+    "japanese": "\u6fc0\u3057\u3044\u6700\u521d\u306e5\u6b69",
     "urls": [
       "https://app.box.com/s/qq4gm0ilax6aqt4ojyhw3yns793wa7r9"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "1 / - 1 (Ichi)",
-    "english": "",
-    "japanese": "ラックの隣の1人目のディフェンス",
+    "english": "1st defender next to the ruck.",
+    "japanese": "\u30e9\u30c3\u30af\u306e\u96a3\u306e1\u4eba\u76ee\u306e\u30c7\u30a3\u30d5\u30a7\u30f3\u30b9",
     "urls": [
       "https://app.box.com/s/q4g8x3by1fse6twzum16k7xrikya01k0"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "Mae mite",
-    "english": "",
-    "japanese": "前を見て、相手のシェープを見る",
+    "english": "Eyes forward, whats their shape",
+    "japanese": "\u524d\u3092\u898b\u3066\u3001\u76f8\u624b\u306e\u30b7\u30a7\u30fc\u30d7\u3092\u898b\u308b",
     "urls": [
       "https://app.box.com/s/4xnh5jwkefd7jjxuzdf7ffw536k6n8wj"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "2 (Ni)",
-    "english": "",
-    "japanese": "2人目のディフェンス　Uchiへのティップ＋内側のプレッシャー",
+    "english": "2nd defender - inside tip to A + inside pressure",
+    "japanese": "2\u4eba\u76ee\u306e\u30c7\u30a3\u30d5\u30a7\u30f3\u30b9\u3000Uchi\u3078\u306e\u30c6\u30a3\u30c3\u30d7\uff0b\u5185\u5074\u306e\u30d7\u30ec\u30c3\u30b7\u30e3\u30fc",
     "urls": [
       "https://app.box.com/s/q4g8x3by1fse6twzum16k7xrikya01k0"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "4 (Yon)",
-    "english": "",
-    "japanese": "4人目のディフェンス　ティップのチェックとプッシュ",
+    "english": "4th defender - marking the tip and push off",
+    "japanese": "4\u4eba\u76ee\u306e\u30c7\u30a3\u30d5\u30a7\u30f3\u30b9\u3000\u30c6\u30a3\u30c3\u30d7\u306e\u30c1\u30a7\u30c3\u30af\u3068\u30d7\u30c3\u30b7\u30e5",
     "urls": [
       "https://app.box.com/s/q4g8x3by1fse6twzum16k7xrikya01k0"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "3 (San) / Set",
-    "english": "",
-    "japanese": "3人目のディフェンス　最初のレシーバーの外肩",
+    "english": "3rd defender on outside shoulder of their 1st receive.",
+    "japanese": "3\u4eba\u76ee\u306e\u30c7\u30a3\u30d5\u30a7\u30f3\u30b9\u3000\u6700\u521d\u306e\u30ec\u30b7\u30fc\u30d0\u30fc\u306e\u5916\u80a9",
     "urls": [
       "https://app.box.com/s/q4g8x3by1fse6twzum16k7xrikya01k0"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "5 (Go)",
-    "english": "",
-    "japanese": "5人目　ティップへのダブルヒットと後ろへのパス",
-    "urls": []
+    "english": "5th defender - responsible for double hit on the tip or ball out the back",
+    "japanese": "5\u4eba\u76ee\u3000\u30c6\u30a3\u30c3\u30d7\u3078\u306e\u30c0\u30d6\u30eb\u30d2\u30c3\u30c8\u3068\u5f8c\u308d\u3078\u306e\u30d1\u30b9",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "6 (Roku)",
-    "english": "",
-    "japanese": "6人目のディフェンス",
-    "urls": []
+    "english": "6th defender",
+    "japanese": "6\u4eba\u76ee\u306e\u30c7\u30a3\u30d5\u30a7\u30f3\u30b9",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "Agaru",
-    "english": "",
-    "japanese": "ラインから上がる時のコール",
+    "english": "Call off the line to go & get them.",
+    "japanese": "\u30e9\u30a4\u30f3\u304b\u3089\u4e0a\u304c\u308b\u6642\u306e\u30b3\u30fc\u30eb",
     "urls": [
       "https://app.box.com/s/ik2br8a9im0u76402ms990xhy3sq3fs3"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "Ball",
-    "english": "",
-    "japanese": "ボールディフェンダー",
-    "urls": []
+    "english": "Ball defender",
+    "japanese": "\u30dc\u30fc\u30eb\u30c7\u30a3\u30d5\u30a7\u30f3\u30c0\u30fc",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "Hunt",
-    "english": "",
-    "japanese": "内側からのプレッシャー",
+    "english": "Inside pressure",
+    "japanese": "\u5185\u5074\u304b\u3089\u306e\u30d7\u30ec\u30c3\u30b7\u30e3\u30fc",
     "urls": [
       "https://app.box.com/s/txhmlz6qs4g1q8lon12foer61ab0y43t"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "Adjust",
-    "english": "",
-    "japanese": "ボールディフェンダーの外側",
-    "urls": []
+    "english": "Defender outisde of \u201cBall Defender\u201d",
+    "japanese": "\u30dc\u30fc\u30eb\u30c7\u30a3\u30d5\u30a7\u30f3\u30c0\u30fc\u306e\u5916\u5074",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "Fold",
-    "english": "",
-    "japanese": "順目に回る",
+    "english": "Defenders to keep folding Jumme",
+    "japanese": "\u9806\u76ee\u306b\u56de\u308b",
     "urls": [
       "https://app.box.com/s/zcebfi687dy5l8ahtv6t1zlc10630cr5"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "Stay",
-    "english": "",
-    "japanese": "順目に回らず、Gyakuサイドに残る",
+    "english": "No Folding - Stay on Gyaku side",
+    "japanese": "\u9806\u76ee\u306b\u56de\u3089\u305a\u3001Gyaku\u30b5\u30a4\u30c9\u306b\u6b8b\u308b",
     "urls": [
       "https://app.box.com/s/uk8rorehsfzr510erzgve8o36wqjxzvx"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "ICE",
-    "english": "",
-    "japanese": "人数が少ないとき　サイドへ押し出す（外から2人目がコール）",
+    "english": "Down on numbers - push to the side (Caller : 2nd last)",
+    "japanese": "\u4eba\u6570\u304c\u5c11\u306a\u3044\u3068\u304d\u3000\u30b5\u30a4\u30c9\u3078\u62bc\u3057\u51fa\u3059\uff08\u5916\u304b\u30892\u4eba\u76ee\u304c\u30b3\u30fc\u30eb\uff09",
     "urls": [
       "https://app.box.com/s/j6wlouadsh9dqb3gohwi8pez6h91rg2i"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "Hit",
-    "english": "",
-    "japanese": "人数が合っている　前へ出る（外から2人目がコール）",
+    "english": "Numbers are on go and get them (Caller : 2nd last)",
+    "japanese": "\u4eba\u6570\u304c\u5408\u3063\u3066\u3044\u308b\u3000\u524d\u3078\u51fa\u308b\uff08\u5916\u304b\u30892\u4eba\u76ee\u304c\u30b3\u30fc\u30eb\uff09",
     "urls": [
       "https://app.box.com/s/j6wlouadsh9dqb3gohwi8pez6h91rg2i"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "Boot",
-    "english": "",
-    "japanese": "プラグする前に9がラックの後ろに入る",
+    "english": "9 behind the ruck before he plugs",
+    "japanese": "\u30d7\u30e9\u30b0\u3059\u308b\u524d\u306b9\u304c\u30e9\u30c3\u30af\u306e\u5f8c\u308d\u306b\u5165\u308b",
     "urls": [
       "https://app.box.com/s/6cmyv6iuici0gy1dr4tjylwivvf5tmva"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "Plug",
-    "english": "",
-    "japanese": "穴を埋めるために9がラインに入る",
+    "english": "9 gets in the line to fill in (generally at 1 or -1)",
+    "japanese": "\u7a74\u3092\u57cb\u3081\u308b\u305f\u3081\u306b9\u304c\u30e9\u30a4\u30f3\u306b\u5165\u308b",
     "urls": [
       "https://app.box.com/s/6cmyv6iuici0gy1dr4tjylwivvf5tmva"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "Kabe",
-    "english": "",
-    "japanese": "つながり続けるー壁ディフェンス(１４−１）",
+    "english": "Connect, Connect, Connect! - Wall Defence (14/1)",
+    "japanese": "\u3064\u306a\u304c\u308a\u7d9a\u3051\u308b\u30fc\u58c1\u30c7\u30a3\u30d5\u30a7\u30f3\u30b9(\uff11\uff14\u2212\uff11\uff09",
     "urls": [
       "https://app.box.com/s/hza25g51bgzakla4hze8vwpj089rcphb"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Defence",
     "name": "Hotto",
-    "english": "",
-    "japanese": "Sparkディフェンス時の素早いトランジションコール",
+    "english": "tactical communication used to trigger an immediate and high-speed transition from attack to defense.",
+    "japanese": "Spark\u30c7\u30a3\u30d5\u30a7\u30f3\u30b9\u6642\u306e\u7d20\u65e9\u3044\u30c8\u30e9\u30f3\u30b8\u30b7\u30e7\u30f3\u30b3\u30fc\u30eb",
     "urls": [
       "https://app.box.com/s/5an7t792ohl0eqxexshz3xc3hsqw1cl4"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Kick Sprint",
     "name": "Wreck",
-    "english": "",
-    "japanese": "ラックに入り、相手のFwdを掴み続ける",
+    "english": "The forward in front of the ruck engages and holds their players in.",
+    "japanese": "\u30e9\u30c3\u30af\u306b\u5165\u308a\u3001\u76f8\u624b\u306eFwd\u3092\u63b4\u307f\u7d9a\u3051\u308b",
     "urls": [
       "https://app.box.com/s/fugug9kvmnhxn511rbxc0hba8lq18zr5"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Kick Sprint",
     "name": "Left, Ball, Right",
-    "english": "",
-    "japanese": "キックチェイス時のポジション",
-    "urls": []
+    "english": "Pitch positions inside the kick sprint - ball being the carrier",
+    "japanese": "\u30ad\u30c3\u30af\u30c1\u30a7\u30a4\u30b9\u6642\u306e\u30dd\u30b8\u30b7\u30e7\u30f3",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Kick Sprint",
     "name": "Hot 3",
-    "english": "",
-    "japanese": "キックレシーブ最初のラック\n近い2人がロック",
-    "urls": []
+    "english": "1st ruck - closest 2 players lock in over the ball.",
+    "japanese": "\u30ad\u30c3\u30af\u30ec\u30b7\u30fc\u30d6\u6700\u521d\u306e\u30e9\u30c3\u30af\u3000\u8fd1\u30442\u4eba\u304c\u30ed\u30c3\u30af",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Kick Sprint",
     "name": "Jama",
-    "english": "",
-    "japanese": "空中で競って邪魔する",
-    "urls": []
+    "english": "Players attacking their tap back",
+    "japanese": "\u7a7a\u4e2d\u3067\u7af6\u3063\u3066\u90aa\u9b54\u3059\u308b",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Kick Sprint",
     "name": "Land",
-    "english": "",
-    "japanese": "キャッチャーの足が地面に着いた瞬間にタックル",
-    "urls": []
+    "english": "Smash the catcher as he lands on the floor post catch",
+    "japanese": "\u30ad\u30e3\u30c3\u30c1\u30e3\u30fc\u306e\u8db3\u304c\u5730\u9762\u306b\u7740\u3044\u305f\u77ac\u9593\u306b\u30bf\u30c3\u30af\u30eb",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Kick Sprint",
     "name": "Crumbs",
-    "english": "",
-    "japanese": "キックキャッチのこぼれ球を拾う\nプレーヤー",
-    "urls": []
+    "english": "Players responsible for covering loose balls",
+    "japanese": "\u30ad\u30c3\u30af\u30ad\u30e3\u30c3\u30c1\u306e\u3053\u307c\u308c\u7403\u3092\u62fe\u3046\u30d7\u30ec\u30fc\u30e4\u30fc",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Kick Sprint",
     "name": "Ghost",
-    "english": "",
-    "japanese": "キックキャッチのこぼれ球を拾う\nプレーヤー（相手側）",
-    "urls": []
+    "english": "Players responsible for covering loose balls\u2028in oppostion side",
+    "japanese": "\u30ad\u30c3\u30af\u30ad\u30e3\u30c3\u30c1\u306e\u3053\u307c\u308c\u7403\u3092\u62fe\u3046\u30d7\u30ec\u30fc\u30e4\u30fc\uff08\u76f8\u624b\u5074\uff09",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Kick Sprint",
     "name": "Fire",
-    "english": "",
-    "japanese": "キックチェイスライン",
-    "urls": []
+    "english": "Kick chase line",
+    "japanese": "\u30ad\u30c3\u30af\u30c1\u30a7\u30a4\u30b9\u30e9\u30a4\u30f3",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Kick Sprint",
     "name": "Dohan",
-    "english": "",
-    "japanese": "キャッチャーを守るためにもどるプレーヤー",
-    "urls": []
+    "english": "Chase back to protect catcher",
+    "japanese": "\u30ad\u30e3\u30c3\u30c1\u30e3\u30fc\u3092\u5b88\u308b\u305f\u3081\u306b\u3082\u3069\u308b\u30d7\u30ec\u30fc\u30e4\u30fc",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Sun",
-    "english": "",
-    "japanese": "9からのハイボール",
+    "english": "9 Box",
+    "japanese": "9\u304b\u3089\u306e\u30cf\u30a4\u30dc\u30fc\u30eb",
     "urls": [
       "https://app.box.com/s/flo3n3x0e8m3fc3edrvuow2fcqqqfqu6"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Moon",
-    "english": "",
-    "japanese": "9からのロングキック",
+    "english": "9 Long",
+    "japanese": "9\u304b\u3089\u306e\u30ed\u30f3\u30b0\u30ad\u30c3\u30af",
     "urls": [
       "https://app.box.com/s/1zer73ou8wc41huu3cxlqllx7rxjzr1t"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Star",
-    "english": "",
-    "japanese": "ロングキック",
-    "urls": []
+    "english": "Long",
+    "japanese": "\u30ed\u30f3\u30b0\u30ad\u30c3\u30af",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Sky",
-    "english": "",
-    "japanese": "ハイボール",
+    "english": "Bomb",
+    "japanese": "\u30cf\u30a4\u30dc\u30fc\u30eb",
     "urls": [
       "https://app.box.com/s/qs1fe8r2jo4lisonhjyy6l0tjdk2zpn1"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Rainbow",
-    "english": "",
-    "japanese": "キックパス",
-    "urls": []
+    "english": "Cross Kick",
+    "japanese": "\u30ad\u30c3\u30af\u30d1\u30b9",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Stand",
-    "english": "",
-    "japanese": "タッチキック",
+    "english": "Touch Kick",
+    "japanese": "\u30bf\u30c3\u30c1\u30ad\u30c3\u30af",
     "urls": [
       "https://app.box.com/s/0uqq3ys4ro2tyz8wxp5r45fjhkfa9v8b"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Galaxy",
-    "english": "",
-    "japanese": "外のバックスからのキック",
+    "english": "Outside back kick",
+    "japanese": "\u5916\u306e\u30d0\u30c3\u30af\u30b9\u304b\u3089\u306e\u30ad\u30c3\u30af",
     "urls": [
       "https://app.box.com/s/cwj11lr60d34zdao99ubti7xsitmfwi4"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Mars",
-    "english": "",
-    "japanese": "グラバー",
+    "english": "Chip",
+    "japanese": "\u30b0\u30e9\u30d0\u30fc",
     "urls": [
       "https://app.box.com/s/l4yu3gwgzfld98l6l2fi2mp15ljp32ac"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Venus",
-    "english": "",
-    "japanese": "チップ",
+    "english": "Grubber",
+    "japanese": "\u30c1\u30c3\u30d7",
     "urls": [
       "https://app.box.com/s/4w31wj5eccefkg82b9f3o5ksvr054l49"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Pluto",
-    "english": "",
-    "japanese": "イエローゾーンでのクロスバーキック",
-    "urls": []
+    "english": "Cross bar Kick (in Yellow)",
+    "japanese": "\u30a4\u30a8\u30ed\u30fc\u30be\u30fc\u30f3\u3067\u306e\u30af\u30ed\u30b9\u30d0\u30fc\u30ad\u30c3\u30af",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Gumma",
-    "english": "",
-    "japanese": "9からラックを越えるキック",
+    "english": "Topple over off 9",
+    "japanese": "9\u304b\u3089\u30e9\u30c3\u30af\u3092\u8d8a\u3048\u308b\u30ad\u30c3\u30af",
     "urls": [
       "https://app.box.com/s/eibo9lrlv15mbdnrs5zlqd31y8yzk2v1"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Sapporo",
-    "english": "",
-    "japanese": "9からコーナーめがけて蹴るキック",
+    "english": "Kick to corner off 9",
+    "japanese": "9\u304b\u3089\u30b3\u30fc\u30ca\u30fc\u3081\u304c\u3051\u3066\u8e74\u308b\u30ad\u30c3\u30af",
     "urls": [
       "https://app.box.com/s/65ofim5nswqwodi266em8tib4viidqnf"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Shiga",
-    "english": "",
-    "japanese": "9から真ん中へのキック",
-    "urls": []
+    "english": "Middle field kick off 9",
+    "japanese": "9\u304b\u3089\u771f\u3093\u4e2d\u3078\u306e\u30ad\u30c3\u30af",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Post",
-    "english": "",
-    "japanese": "10から真ん中へのキック",
-    "urls": []
+    "english": "Middle field kick off 10",
+    "japanese": "10\u304b\u3089\u771f\u3093\u4e2d\u3078\u306e\u30ad\u30c3\u30af",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Kado",
-    "english": "",
-    "japanese": "コーナー",
-    "urls": []
+    "english": "Corner",
+    "japanese": "\u30b3\u30fc\u30ca\u30fc",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Sumo",
-    "english": "",
-    "japanese": "Sunのダミー　Fwdへパス",
+    "english": "Dummy Sun, play fwd through the ruck",
+    "japanese": "Sun\u306e\u30c0\u30df\u30fc\u3000Fwd\u3078\u30d1\u30b9",
     "urls": [
       "https://app.box.com/s/3521bsuruzlnxwdbnx53ibfn41eagrle"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Ninja",
-    "english": "",
-    "japanese": "Sunのダミー　外へパス",
-    "urls": []
+    "english": "Dummy Sun play to edge",
+    "japanese": "Sun\u306e\u30c0\u30df\u30fc\u3000\u5916\u3078\u30d1\u30b9",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Kicking",
     "name": "Sun Gold",
-    "english": "",
-    "japanese": "8が先に後ろへ下がり、キャッチのサポート",
+    "english": "8 drops back into the backfield to support catcher",
+    "japanese": "8\u304c\u5148\u306b\u5f8c\u308d\u3078\u4e0b\u304c\u308a\u3001\u30ad\u30e3\u30c3\u30c1\u306e\u30b5\u30dd\u30fc\u30c8",
     "urls": [
       "https://app.box.com/s/c7iiwjei1vp34dp8u42iil3qtxfgprsp"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "I frame",
-    "english": "",
-    "japanese": "リフターとジャンパーのフルエクステンション",
+    "english": "Full extension of lifters & jumpers",
+    "japanese": "\u30ea\u30d5\u30bf\u30fc\u3068\u30b8\u30e3\u30f3\u30d1\u30fc\u306e\u30d5\u30eb\u30a8\u30af\u30b9\u30c6\u30f3\u30b7\u30e7\u30f3",
     "urls": [
       "https://app.box.com/s/6iqxkrf6bd0d55t1hr1ewff4j6oyvd30"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Top",
-    "english": "",
-    "japanese": "5m jump podのベイルアウト",
+    "english": "Bail out to 5m jump pod",
+    "japanese": "5m jump pod\u306e\u30d9\u30a4\u30eb\u30a2\u30a6\u30c8",
     "urls": [
       "https://app.box.com/s/lknqhwj0hdey6f1c8pjq533xoaa62yfo"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Gun",
-    "english": "",
-    "japanese": "15m jump podのベイルアウト",
+    "english": "Bail out to 15m jump pod",
+    "japanese": "15m jump pod\u306e\u30d9\u30a4\u30eb\u30a2\u30a6\u30c8",
     "urls": [
       "https://app.box.com/s/lvsmgyim78qrdx0aiuu4ogak6sih9z2p"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Zero",
-    "english": "",
-    "japanese": "ジャンプせず、前のプレーヤーへのベイルアウト",
+    "english": "Bail out to player at the front (No jump)",
+    "japanese": "\u30b8\u30e3\u30f3\u30d7\u305b\u305a\u3001\u524d\u306e\u30d7\u30ec\u30fc\u30e4\u30fc\u3078\u306e\u30d9\u30a4\u30eb\u30a2\u30a6\u30c8",
     "urls": [
       "https://app.box.com/s/5o6cif3jpb1ea6u06yjqpg0ax0920ifn"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Cannon",
-    "english": "",
-    "japanese": "バックスへのロングスロー",
+    "english": "Throw over 15m",
+    "japanese": "\u30d0\u30c3\u30af\u30b9\u3078\u306e\u30ed\u30f3\u30b0\u30b9\u30ed\u30fc",
     "urls": [
       "https://app.box.com/s/j3wiizqfrz1ixs9ivutzyqsxbhce6axc"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Car",
-    "english": "",
-    "japanese": "上からのデリバリー",
+    "english": "Off the top",
+    "japanese": "\u4e0a\u304b\u3089\u306e\u30c7\u30ea\u30d0\u30ea\u30fc",
     "urls": [
       "https://app.box.com/s/rgbta13hs3n03wq6k66v3k6efm9c3jay"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Grenade",
-    "english": "",
-    "japanese": "フォワードへのロングスロー",
+    "english": "Throw over 15m to FWDS from lineout",
+    "japanese": "\u30d5\u30a9\u30ef\u30fc\u30c9\u3078\u306e\u30ed\u30f3\u30b0\u30b9\u30ed\u30fc",
     "urls": [
       "https://app.box.com/s/noi0ubpa06xhrwh4lvzm6a72t27l5a12"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Bus",
-    "english": "",
-    "japanese": "モール",
+    "english": "Drive",
+    "japanese": "\u30e2\u30fc\u30eb",
     "urls": [
       "https://app.box.com/s/04hx3vqr4cpx06vxf2x38h9xwyo3bv2m"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Bike",
-    "english": "",
-    "japanese": "下からのデリバリー",
+    "english": "Down & give",
+    "japanese": "\u4e0b\u304b\u3089\u306e\u30c7\u30ea\u30d0\u30ea\u30fc",
     "urls": [
       "https://app.box.com/s/eb5e2n3tj6kdkmzo7583henb1n90w8x1"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Mate",
-    "english": "",
-    "japanese": "ダミーモール",
-    "urls": []
+    "english": "Statue drive",
+    "japanese": "\u30c0\u30df\u30fc\u30e2\u30fc\u30eb",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Scooter",
-    "english": "",
-    "japanese": "リップして外へ行く",
+    "english": "Rip then go outside",
+    "japanese": "\u30ea\u30c3\u30d7\u3057\u3066\u5916\u3078\u884c\u304f",
     "urls": [
       "https://app.box.com/s/c9pkwhodrn72a3commn2xoxn053flv5n"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Jeep",
-    "english": "",
-    "japanese": "フロントピール",
+    "english": "Front peel",
+    "japanese": "\u30d5\u30ed\u30f3\u30c8\u30d4\u30fc\u30eb",
     "urls": [
       "https://app.box.com/s/zya2yjwdm5c5js8st8eokd9bf55323gf"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Hummer",
-    "english": "",
-    "japanese": "バックピール",
+    "english": "Back peel",
+    "japanese": "\u30d0\u30c3\u30af\u30d4\u30fc\u30eb",
     "urls": [
       "https://app.box.com/s/vfmhq33vslv155wbltald2f666e74ejg"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "9 Tank",
-    "english": "",
-    "japanese": "リッパーが振り返ってSHにパス",
+    "english": "(Kyu Tank) Ripper turns and passes to SH",
+    "japanese": "\u30ea\u30c3\u30d1\u30fc\u304c\u632f\u308a\u8fd4\u3063\u3066SH\u306b\u30d1\u30b9",
     "urls": [
       "https://app.box.com/s/g9ep73789rxu0m2tkpo4otcm85zeinov"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Tank",
-    "english": "",
-    "japanese": "リッパーが振り返ってHOにパス",
+    "english": "Ripper turns and passes to Hooker",
+    "japanese": "\u30ea\u30c3\u30d1\u30fc\u304c\u632f\u308a\u8fd4\u3063\u3066HO\u306b\u30d1\u30b9",
     "urls": [
       "https://app.box.com/s/lkyd8cuv6u32o4u7letbvvphnsk5bkr6"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Tractor",
-    "english": "",
-    "japanese": "ダミーモールの上から上空からのデリバリー",
+    "english": "Off the top to FWDS over the dummy maul",
+    "japanese": "\u30c0\u30df\u30fc\u30e2\u30fc\u30eb\u306e\u4e0a\u304b\u3089\u4e0a\u7a7a\u304b\u3089\u306e\u30c7\u30ea\u30d0\u30ea\u30fc",
     "urls": [
       "https://app.box.com/s/1pyr27edyrmecky8bhuqsregy06qd28l"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Crane",
-    "english": "",
-    "japanese": "空中で違うポッドへのパス",
+    "english": "Jump pod passes the ball to another pod in mid-air",
+    "japanese": "\u7a7a\u4e2d\u3067\u9055\u3046\u30dd\u30c3\u30c9\u3078\u306e\u30d1\u30b9",
     "urls": [
       "https://app.box.com/s/hha72xnhu3uo9uabqwyfv7l45yhf1tqo"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Lineout",
     "name": "Sky tree",
-    "english": "",
-    "japanese": "前のゾーンで跳ぶディフェンス",
+    "english": "Air DF - Jump in the front zone",
+    "japanese": "\u524d\u306e\u30be\u30fc\u30f3\u3067\u8df3\u3076\u30c7\u30a3\u30d5\u30a7\u30f3\u30b9",
     "urls": [
       "https://app.box.com/s/9burpm0lvaitvv3xnmbm0cw2rakhxg57"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Maul",
     "name": "Land Heavy",
-    "english": "",
-    "japanese": "2ｍのハードヒット",
+    "english": "Lifters, push forward with Strength",
+    "japanese": "2\uff4d\u306e\u30cf\u30fc\u30c9\u30d2\u30c3\u30c8",
     "urls": [
       "https://app.box.com/s/yn1mbdn12w0rfwq3yywhruw59d2zppw4"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Maul",
     "name": "Punch Rip",
-    "english": "",
-    "japanese": "ジャンパーとタイトに繋がる",
+    "english": "Hard hit from 2m",
+    "japanese": "\u30b8\u30e3\u30f3\u30d1\u30fc\u3068\u30bf\u30a4\u30c8\u306b\u7e4b\u304c\u308b",
     "urls": [
       "https://app.box.com/s/yn1mbdn12w0rfwq3yywhruw59d2zppw4"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Maul",
     "name": "Plus",
-    "english": "",
-    "japanese": "バックリフターの後ろで留まる",
+    "english": "Stuck behind the back lifter",
+    "japanese": "\u30d0\u30c3\u30af\u30ea\u30d5\u30bf\u30fc\u306e\u5f8c\u308d\u3067\u7559\u307e\u308b",
     "urls": [
       "https://app.box.com/s/9ibjm3d3tjqo4g4n2yfux0dp3vgaeyr1"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Maul",
     "name": "Nail",
-    "english": "",
-    "japanese": "リッパーの両サイド",
-    "urls": []
+    "english": "either side of the Ripper",
+    "japanese": "\u30ea\u30c3\u30d1\u30fc\u306e\u4e21\u30b5\u30a4\u30c9",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Maul",
     "name": "Yakult",
-    "english": "",
-    "japanese": "前で、ジャンプ無しでBus",
+    "english": "Drive at front with no jump",
+    "japanese": "\u524d\u3067\u3001\u30b8\u30e3\u30f3\u30d7\u7121\u3057\u3067Bus",
     "urls": [
       "https://app.box.com/s/kqqa2sym9x8fl57s4eblw3bn2mg6ey6w"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Maul",
     "name": "Minus",
-    "english": "",
-    "japanese": "フロントリフターの前で留まる",
+    "english": "Stuck behind the front lifter",
+    "japanese": "\u30d5\u30ed\u30f3\u30c8\u30ea\u30d5\u30bf\u30fc\u306e\u524d\u3067\u7559\u307e\u308b",
     "urls": [
       "https://app.box.com/s/wizztusg0zsbrgzn7yhas7a9tj3yalc5"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Maul",
     "name": "Drift",
-    "english": "",
-    "japanese": "ずらしモール",
+    "english": "Shift drive",
+    "japanese": "\u305a\u3089\u3057\u30e2\u30fc\u30eb",
     "urls": [
       "https://app.box.com/s/tswojh7w02qihql4xgospjwp5o5w9n2g"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Maul",
     "name": "Corner",
-    "english": "",
-    "japanese": "タッチに向かってドライブ",
+    "english": "Drive towards the touchline",
+    "japanese": "\u30bf\u30c3\u30c1\u306b\u5411\u304b\u3063\u3066\u30c9\u30e9\u30a4\u30d6",
     "urls": [
       "https://app.box.com/s/hpz6vsm1uivbcmi5sksf647j0dwdjtq0"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Maul",
     "name": "Hip Roll / Face Shift",
-    "english": "",
-    "japanese": "ずらしモールのスキル",
+    "english": "Shift drive skills",
+    "japanese": "\u305a\u3089\u3057\u30e2\u30fc\u30eb\u306e\u30b9\u30ad\u30eb",
     "urls": [
       "https://app.box.com/s/sqe1ztewjkem8i450x2kjvyc679nvb42"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Maul",
     "name": "Post",
-    "english": "",
-    "japanese": "ゴールポストに向かってドライブ",
+    "english": "Drive towards the goal posts",
+    "japanese": "\u30b4\u30fc\u30eb\u30dd\u30b9\u30c8\u306b\u5411\u304b\u3063\u3066\u30c9\u30e9\u30a4\u30d6",
     "urls": [
       "https://app.box.com/s/sqe1ztewjkem8i450x2kjvyc679nvb42"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Maul",
     "name": "Kakugo",
-    "english": "",
-    "japanese": "10ｍ以内のDFシステム",
+    "english": "Lineout DF system inside 10m",
+    "japanese": "10\uff4d\u4ee5\u5185\u306eDF\u30b7\u30b9\u30c6\u30e0",
     "urls": [
       "https://app.box.com/s/wor0peavrrx5aqk3i0yybhsxhfiqt1y3"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Maul",
     "name": "Spear",
-    "english": "",
-    "japanese": "頭を内に、相手ジャンパーにヒット",
+    "english": "Hit Opponent\u2019s Lifter",
+    "japanese": "\u982d\u3092\u5185\u306b\u3001\u76f8\u624b\u30b8\u30e3\u30f3\u30d1\u30fc\u306b\u30d2\u30c3\u30c8",
     "urls": [
       "https://app.box.com/s/wzypw1j7y5db8l6ec2a8xd66g9thhmq3"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Maul",
     "name": "Bull",
-    "english": "",
-    "japanese": "頭を外に、相手のリフターにヒット",
+    "english": "Hit the opponent's lifter (Head outside)",
+    "japanese": "\u982d\u3092\u5916\u306b\u3001\u76f8\u624b\u306e\u30ea\u30d5\u30bf\u30fc\u306b\u30d2\u30c3\u30c8",
     "urls": [
       "https://app.box.com/s/wzypw1j7y5db8l6ec2a8xd66g9thhmq3"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Maul",
     "name": "Jaga",
-    "english": "",
-    "japanese": "サック",
+    "english": "Sack",
+    "japanese": "\u30b5\u30c3\u30af",
     "urls": [
       "https://app.box.com/s/w44b32vlwia49t0wuegh5rjsjhco6c66"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Passing",
     "name": "Gas",
-    "english": "",
-    "japanese": "Live3の後ろへパス",
+    "english": "Pass out the back of Live 3",
+    "japanese": "Live3\u306e\u5f8c\u308d\u3078\u30d1\u30b9",
     "urls": [
       "https://app.box.com/s/6ectgjt7cvhjj8hqs06l4qz410ealz4a"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Passing",
     "name": "Lead",
-    "english": "",
-    "japanese": "フロントドアオプション",
+    "english": "Front door option in Phase Attack Hit the lead runner",
+    "japanese": "\u30d5\u30ed\u30f3\u30c8\u30c9\u30a2\u30aa\u30d7\u30b7\u30e7\u30f3",
     "urls": [
       "https://app.box.com/s/7fyx95r39ivzs0u4q7pepenzcuunbz0l"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Passing",
     "name": "Ura",
-    "english": "",
-    "japanese": "バックドアオプション",
+    "english": "Back door option in Phase Attack",
+    "japanese": "\u30d0\u30c3\u30af\u30c9\u30a2\u30aa\u30d7\u30b7\u30e7\u30f3",
     "urls": [
       "https://app.box.com/s/7fyx95r39ivzs0u4q7pepenzcuunbz0l"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Passing",
     "name": "Burn",
-    "english": "",
-    "japanese": "Live3の後ろへ9から直接パス",
+    "english": "Pass directly behind Live 3 to back",
+    "japanese": "Live3\u306e\u5f8c\u308d\u30789\u304b\u3089\u76f4\u63a5\u30d1\u30b9",
     "urls": [
       "https://app.box.com/s/w8pjukibvblas4umusqf52x9xeqntcyu"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Passing",
     "name": "Smoke",
-    "english": "",
-    "japanese": "飛ばしパス",
+    "english": "Miss Pass",
+    "japanese": "\u98db\u3070\u3057\u30d1\u30b9",
     "urls": [
       "https://app.box.com/s/ipgg8zyagaygxv39fkgux75siolnpvm2"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Passing",
     "name": "Turbo",
-    "english": "",
-    "japanese": "9または10からのループプレー",
+    "english": "Return Pass off 9 or 10",
+    "japanese": "9\u307e\u305f\u306f10\u304b\u3089\u306e\u30eb\u30fc\u30d7\u30d7\u30ec\u30fc",
     "urls": [
       "https://app.box.com/s/75b1tbv6j79yvnlgc8eluj1onc797arq"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Passing",
     "name": "Charge",
-    "english": "",
-    "japanese": "飛ばしリードウラ,飛ばされた選手がループ",
-    "urls": []
+    "english": "Return Pass one out",
+    "japanese": "\u98db\u3070\u3057\u30ea\u30fc\u30c9\u30a6\u30e9,\u98db\u3070\u3055\u308c\u305f\u9078\u624b\u304c\u30eb\u30fc\u30d7",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Passing",
     "name": "Boost",
-    "english": "",
-    "japanese": "飛ばしてサークルプレー",
+    "english": "Miss Pass to Gas",
+    "japanese": "\u98db\u3070\u3057\u3066\u30b5\u30fc\u30af\u30eb\u30d7\u30ec\u30fc",
     "urls": [
       "https://app.box.com/s/rvsw98zatsj47b6ztlizzfnwa9pp7uex"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Passing",
     "name": "Soto",
-    "english": "",
-    "japanese": "ショルダーボール",
-    "urls": []
+    "english": "Shoulder Ball",
+    "japanese": "\u30b7\u30e7\u30eb\u30c0\u30fc\u30dc\u30fc\u30eb",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Passing",
     "name": "Uchi",
-    "english": "",
-    "japanese": "内返し",
-    "urls": []
+    "english": "Inside Ball",
+    "japanese": "\u5185\u8fd4\u3057",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Passing",
     "name": "Drop",
-    "english": "",
-    "japanese": "クロス",
+    "english": "Ball carrier cuts a runner underneath",
+    "japanese": "\u30af\u30ed\u30b9",
     "urls": [
       "https://app.box.com/s/7q72pj27nck7izyx8o22v6muyf2paszt"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Passing",
     "name": "Maru",
-    "english": "",
-    "japanese": "サークルパス",
+    "english": "Circle pass",
+    "japanese": "\u30b5\u30fc\u30af\u30eb\u30d1\u30b9",
     "urls": [
       "https://app.box.com/s/yriiab4xcy9f2hrg4jetxkmcaqxh3xq5"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Passing",
     "name": "Bridge",
-    "english": "",
-    "japanese": "エッジへの頭を越えるパス",
-    "urls": []
+    "english": "Overhead miss pass to edge",
+    "japanese": "\u30a8\u30c3\u30b8\u3078\u306e\u982d\u3092\u8d8a\u3048\u308b\u30d1\u30b9",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Passing",
     "name": "Kao",
-    "english": "",
-    "japanese": "フェースボール",
-    "urls": []
+    "english": "Face ball",
+    "japanese": "\u30d5\u30a7\u30fc\u30b9\u30dc\u30fc\u30eb",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Red",
     "english": "Live 3  off 9",
-    "japanese": "9番からのLive3",
+    "japanese": "9\u756a\u304b\u3089\u306eLive3",
     "urls": [
       "https://app.box.com/s/p1k264jd0zlfwioq0r3xqbo3yuhbmh37"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Pink",
     "english": "Gyaku to Red",
-    "japanese": "反対サイドのレッド",
+    "japanese": "\u53cd\u5bfe\u30b5\u30a4\u30c9\u306e\u30ec\u30c3\u30c9",
     "urls": [
       "https://app.box.com/s/bqnn5co8p3bqqt3ve61erkkahns8c10i"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Blue",
     "english": "Edge carry, reloads & plays open side off 9",
-    "japanese": "外でキャリーしてリロード、オープンサイドで9番からのプレー",
+    "japanese": "\u5916\u3067\u30ad\u30e3\u30ea\u30fc\u3057\u3066\u30ea\u30ed\u30fc\u30c9\u3001\u30aa\u30fc\u30d7\u30f3\u30b5\u30a4\u30c9\u30679\u756a\u304b\u3089\u306e\u30d7\u30ec\u30fc",
     "urls": [
       "https://app.box.com/s/cg8xftbe6wk3jwq9hdfft2qt2acgbqfm"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Arrow",
     "english": "Live 3 off 10",
-    "japanese": "10番からのLive3　バックスがHead",
+    "japanese": "10\u756a\u304b\u3089\u306eLive3\u3000\u30d0\u30c3\u30af\u30b9\u304cHead",
     "urls": [
       "https://app.box.com/s/gl6lvy3yl8owjqyzfbi9dwxlnm763vt2"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Orange",
     "english": "4man pods off 10, back join as 2nd left.",
-    "japanese": "Live3で、9がTipにパス",
+    "japanese": "Live3\u3067\u30019\u304cTip\u306b\u30d1\u30b9",
     "urls": [
       "https://app.box.com/s/iuqpeh7qp23lp1o01nacxsymex3jenum"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Black",
     "english": "Fwd player is added outside of Red as option",
-    "japanese": "Redの外にFWが1人セット",
+    "japanese": "Red\u306e\u5916\u306bFW\u304c1\u4eba\u30bb\u30c3\u30c8",
     "urls": [
       "https://app.box.com/s/sjtuh4bt0grvb75jejurampqz6r65wjl"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Kiji",
     "english": "Live 3 in Yellow Zone / 9 Pass to Middle or Outside player",
-    "japanese": "イエローゾーンのLive 3 / 9が真ん中または外の選手にパス",
-    "urls": []
+    "japanese": "\u30a4\u30a8\u30ed\u30fc\u30be\u30fc\u30f3\u306eLive 3 / 9\u304c\u771f\u3093\u4e2d\u307e\u305f\u306f\u5916\u306e\u9078\u624b\u306b\u30d1\u30b9",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Enji",
     "english": "Backs player is added outside of Red  / Kiji as option",
-    "japanese": "Red/Kijiの外にBkが1人セット",
-    "urls": []
+    "japanese": "Red/Kiji\u306e\u5916\u306bBk\u304c1\u4eba\u30bb\u30c3\u30c8",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Head,Uchi,Tip",
     "english": "Position in Red/Arrow - Head sets 1st",
-    "japanese": "Red / Arrowの中のポジション、Head最初にセット",
+    "japanese": "Red / Arrow\u306e\u4e2d\u306e\u30dd\u30b8\u30b7\u30e7\u30f3\u3001Head\u6700\u521d\u306b\u30bb\u30c3\u30c8",
     "urls": [
       "https://app.box.com/s/oci3l6s88dm0lkzpbnd9hnyfisnswnoy",
       "https://app.box.com/s/fuc8pl1l0rtjn4uktpep6q2frfu9v7hf"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Yumi",
     "english": "Back behind Live 3",
-    "japanese": "ライブ3の後ろ",
-    "urls": []
+    "japanese": "\u30e9\u30a4\u30d63\u306e\u5f8c\u308d",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "5Ji 7ji",
-    "english": "Set on 5 o’clock, Receive Gas on 7 o’clock",
-    "japanese": "Yumi : 5時の角度でセットし、7時の角度でGasをもらう",
-    "urls": []
+    "english": "Set on 5 o\u2019clock, Receive Gas on 7 o\u2019clock",
+    "japanese": "Yumi : 5\u6642\u306e\u89d2\u5ea6\u3067\u30bb\u30c3\u30c8\u3057\u30017\u6642\u306e\u89d2\u5ea6\u3067Gas\u3092\u3082\u3089\u3046",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Twist",
     "english": "Change of direction play - 2 backs players run to snap side",
-    "japanese": "方向を変えるプレー。バックス2人がGyakuへ",
+    "japanese": "\u65b9\u5411\u3092\u5909\u3048\u308b\u30d7\u30ec\u30fc\u3002\u30d0\u30c3\u30af\u30b92\u4eba\u304cGyaku\u3078",
     "urls": [
       "https://app.box.com/s/kggaybf4f4thdkus0nzo7ixa2qx13b56"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Fade",
     "english": "Lead runner starts inside shoulder receives outside shoulder",
-    "japanese": "リードランナーが内側の肩からスタートして、外側の肩でボールを受ける",
-    "urls": []
+    "japanese": "\u30ea\u30fc\u30c9\u30e9\u30f3\u30ca\u30fc\u304c\u5185\u5074\u306e\u80a9\u304b\u3089\u30b9\u30bf\u30fc\u30c8\u3057\u3066\u3001\u5916\u5074\u306e\u80a9\u3067\u30dc\u30fc\u30eb\u3092\u53d7\u3051\u308b",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Jet",
     "english": "10 pass to Back 1, Back2 on Lead (Ura), Back 1 passes behind to 10 on Loop",
-    "japanese": "10が1人目にパス、2人目はリード、その後ろを通して1人目が10にループパス",
+    "japanese": "10\u304c1\u4eba\u76ee\u306b\u30d1\u30b9\u30012\u4eba\u76ee\u306f\u30ea\u30fc\u30c9\u3001\u305d\u306e\u5f8c\u308d\u3092\u901a\u3057\u30661\u4eba\u76ee\u304c10\u306b\u30eb\u30fc\u30d7\u30d1\u30b9",
     "urls": [
       "https://app.box.com/s/qnj1lqw1y7jw016ea6qctws6hnmibsfh"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Bounce",
     "english": "Attacks outside shoulder defender to outside shoulder",
-    "japanese": "ディフェンスの外の肩へアタック",
-    "urls": []
+    "japanese": "\u30c7\u30a3\u30d5\u30a7\u30f3\u30b9\u306e\u5916\u306e\u80a9\u3078\u30a2\u30bf\u30c3\u30af",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Stack",
     "english": "Shape in Gold phase - in a row of three",
-    "japanese": "Goldフェーズのシェープ - 縦に3人並ぶ",
-    "urls": []
+    "japanese": "Gold\u30d5\u30a7\u30fc\u30ba\u306e\u30b7\u30a7\u30fc\u30d7 - \u7e26\u306b3\u4eba\u4e26\u3076",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Kage",
     "english": "10 Uchi option",
-    "japanese": "10の内側のオプション",
-    "urls": []
+    "japanese": "10\u306e\u5185\u5074\u306e\u30aa\u30d7\u30b7\u30e7\u30f3",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Uber",
     "english": "Lead Ura shape on Short side",
-    "japanese": "ショートサイドでのリードとウラ",
+    "japanese": "\u30b7\u30e7\u30fc\u30c8\u30b5\u30a4\u30c9\u3067\u306e\u30ea\u30fc\u30c9\u3068\u30a6\u30e9",
     "urls": [
       "https://app.box.com/s/lwgeyn89qcsaqgub7vc8rh7htacabkt4"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Soto Lead",
     "english": "Outside Lead",
-    "japanese": "外側のリード",
-    "urls": []
+    "japanese": "\u5916\u5074\u306e\u30ea\u30fc\u30c9",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Uchi Lead",
     "english": "Inside Lead",
-    "japanese": "内側のリード",
-    "urls": []
+    "japanese": "\u5185\u5074\u306e\u30ea\u30fc\u30c9",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Aida",
     "english": "Tip Set between the Defenders",
-    "japanese": "ディフェンダーの間にTipがセットする",
-    "urls": []
+    "japanese": "\u30c7\u30a3\u30d5\u30a7\u30f3\u30c0\u30fc\u306e\u9593\u306bTip\u304c\u30bb\u30c3\u30c8\u3059\u308b",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Phase Attack",
     "name": "Ichi Ichi (1-1)",
     "english": "Uchi : 1step back and 1arm width from the Head",
-    "japanese": "Uchiのセット、Headから一歩後ろ、1 armの距離",
-    "urls": []
+    "japanese": "Uchi\u306e\u30bb\u30c3\u30c8\u3001Head\u304b\u3089\u4e00\u6b69\u5f8c\u308d\u30011 arm\u306e\u8ddd\u96e2",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Restart",
     "name": "A B C D E",
-    "english": "",
-    "japanese": "フィールドのコール\n左からABCDE",
-    "urls": []
+    "english": "Across the pitch - left to right. A left hand side, C Middle, E Right",
+    "japanese": "\u30d5\u30a3\u30fc\u30eb\u30c9\u306e\u30b3\u30fc\u30eb\u3000\u5de6\u304b\u3089ABCDE",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Restart",
     "name": "1",
-    "english": "",
-    "japanese": "ちょうど10ｍラインを越える場所へのキック（11−13メーター）",
-    "urls": []
+    "english": "Lands just past the 10 meter line ( 11 - 13 meters)",
+    "japanese": "\u3061\u3087\u3046\u306910\uff4d\u30e9\u30a4\u30f3\u3092\u8d8a\u3048\u308b\u5834\u6240\u3078\u306e\u30ad\u30c3\u30af\uff0811\u221213\u30e1\u30fc\u30bf\u30fc\uff09",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Restart",
     "name": "2",
-    "english": "",
-    "japanese": "15ｍから20ｍの位置に落とすキック",
-    "urls": []
+    "english": "Lands 15mts - 20 mts",
+    "japanese": "15\uff4d\u304b\u308920\uff4d\u306e\u4f4d\u7f6e\u306b\u843d\u3068\u3059\u30ad\u30c3\u30af",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Restart",
     "name": "3",
-    "english": "",
-    "japanese": "相手の22内に落とすキック",
-    "urls": []
+    "english": "Lands inside opposition 22",
+    "japanese": "\u76f8\u624b\u306e22\u5185\u306b\u843d\u3068\u3059\u30ad\u30c3\u30af",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "Shiba",
-    "english": "",
-    "japanese": "Japanの高さ",
+    "english": "Japan Height",
+    "japanese": "Japan\u306e\u9ad8\u3055",
     "urls": [
       "https://app.box.com/s/6xvmddzg9twq7k2pozyfwhcmf0yo9qg9"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "Wedge",
-    "english": "",
-    "japanese": "フロントローのアライメント",
-    "urls": []
+    "english": "Front row alignment through opposition hooker",
+    "japanese": "\u30d5\u30ed\u30f3\u30c8\u30ed\u30fc\u306e\u30a2\u30e9\u30a4\u30e1\u30f3\u30c8",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "Constant Tension",
-    "english": "",
-    "japanese": "体を固める。プレッシャーをかけて動かない",
-    "urls": []
+    "english": "Body tightness, not moving under pressure",
+    "japanese": "\u4f53\u3092\u56fa\u3081\u308b\u3002\u30d7\u30ec\u30c3\u30b7\u30e3\u30fc\u3092\u304b\u3051\u3066\u52d5\u304b\u306a\u3044",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "Grips",
-    "english": "",
-    "japanese": "HOがコールしてタイトさを高めるアクションをする",
+    "english": "Hooker call to increase tightness",
+    "japanese": "HO\u304c\u30b3\u30fc\u30eb\u3057\u3066\u30bf\u30a4\u30c8\u3055\u3092\u9ad8\u3081\u308b\u30a2\u30af\u30b7\u30e7\u30f3\u3092\u3059\u308b",
     "urls": [
       "https://app.box.com/s/4s7al2x815bk1moma90qfkuvjz268vh4"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "1inch Punch",
-    "english": "",
-    "japanese": "近い距離からヒットして相手を突き抜ける",
+    "english": "Hit through opposition off short gap",
+    "japanese": "\u8fd1\u3044\u8ddd\u96e2\u304b\u3089\u30d2\u30c3\u30c8\u3057\u3066\u76f8\u624b\u3092\u7a81\u304d\u629c\u3051\u308b",
     "urls": [
       "https://app.box.com/s/46n4xqzfw7z32eql7jh9cyit5q2jq9lu"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "Ni",
-    "english": "",
-    "japanese": "スクエアに組む",
+    "english": "Square scrum",
+    "japanese": "\u30b9\u30af\u30a8\u30a2\u306b\u7d44\u3080",
     "urls": [
       "https://app.box.com/s/e66zvog3lgk9ock6fj4j83r413816yoi"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "Itchi",
-    "english": "",
-    "japanese": "1番を上げる",
+    "english": "LH up",
+    "japanese": "1\u756a\u3092\u4e0a\u3052\u308b",
     "urls": [
       "https://app.box.com/s/fq4v4x01o9viebqdu1rc36w0wm64mvk2"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "San",
-    "english": "",
-    "japanese": "3番を上げる",
+    "english": "TH up",
+    "japanese": "3\u756a\u3092\u4e0a\u3052\u308b",
     "urls": [
       "https://app.box.com/s/mfumtok35g4v23wov291fk3hzxzbcoe8"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "Shiba Go",
-    "english": "",
-    "japanese": "セカンドプッシュのタイミングを合わせるためにバックローがコールする",
+    "english": "Co-ordinated second drive call comes from the loosies",
+    "japanese": "\u30bb\u30ab\u30f3\u30c9\u30d7\u30c3\u30b7\u30e5\u306e\u30bf\u30a4\u30df\u30f3\u30b0\u3092\u5408\u308f\u305b\u308b\u305f\u3081\u306b\u30d0\u30c3\u30af\u30ed\u30fc\u304c\u30b3\u30fc\u30eb\u3059\u308b",
     "urls": [
       "https://app.box.com/s/6xvmddzg9twq7k2pozyfwhcmf0yo9qg9"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "Kundesugu",
-    "english": "",
-    "japanese": "1秒でボールアウトさせる（組んですぐボールを展開）",
+    "english": "Ball at 8s feet 1 second to be used",
+    "japanese": "1\u79d2\u3067\u30dc\u30fc\u30eb\u30a2\u30a6\u30c8\u3055\u305b\u308b\uff08\u7d44\u3093\u3067\u3059\u3050\u30dc\u30fc\u30eb\u3092\u5c55\u958b\uff09",
     "urls": [
       "https://app.box.com/s/qw9wd4pmar8cigpoj8qe62ejbckqtc1f"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "Truck",
-    "english": "",
-    "japanese": "8がボールをキープしセカンドプッシュする",
+    "english": "Have dominance - 8 keeps the ball and we double drive",
+    "japanese": "8\u304c\u30dc\u30fc\u30eb\u3092\u30ad\u30fc\u30d7\u3057\u30bb\u30ab\u30f3\u30c9\u30d7\u30c3\u30b7\u30e5\u3059\u308b",
     "urls": [
       "https://app.box.com/s/5ix3uk0wa1pmsh9jfp9m874ctvzzqu52"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "Cancel",
-    "english": "",
-    "japanese": "事前のコールをキャンセルして9がボールアウトする",
-    "urls": []
+    "english": "9 over ride call and he takes the ball",
+    "japanese": "\u4e8b\u524d\u306e\u30b3\u30fc\u30eb\u3092\u30ad\u30e3\u30f3\u30bb\u30eb\u3057\u30669\u304c\u30dc\u30fc\u30eb\u30a2\u30a6\u30c8\u3059\u308b",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "Bolt",
-    "english": "",
-    "japanese": "相手のTHを1,2番でブロックする",
+    "english": "Opposition TH block",
+    "japanese": "\u76f8\u624b\u306eTH\u30921,2\u756a\u3067\u30d6\u30ed\u30c3\u30af\u3059\u308b",
     "urls": [
       "https://app.box.com/s/0a3s86wizi3f63ewyewqdwuph4cl1t5f"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "Yajirushi",
-    "english": "",
-    "japanese": "相手HOをアタックする",
+    "english": "Attack opposition hooker",
+    "japanese": "\u76f8\u624bHO\u3092\u30a2\u30bf\u30c3\u30af\u3059\u308b",
     "urls": [
       "https://app.box.com/s/fix0azv4e0igxjgc7so0e9w48uetbb76"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Scrum",
-    "name": "“Mine”",
-    "english": "",
-    "japanese": "9番からのパス",
+    "name": "\u201cMine\u201d",
+    "english": "9 pass from base",
+    "japanese": "9\u756a\u304b\u3089\u306e\u30d1\u30b9",
     "urls": [
       "https://app.box.com/s/q1p23xjwfu1jwihuh0kt9v3uk4nbzgr7"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "Hachi (8)",
-    "english": "",
-    "japanese": "8番キャリー",
+    "english": "8 Carry",
+    "japanese": "8\u756a\u30ad\u30e3\u30ea\u30fc",
     "urls": [
       "https://app.box.com/s/8gmd4g456h9nfbgw6hvr5d2j8v59ndck"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Scrum",
     "name": "Ya-kyu (8-9)",
-    "english": "",
-    "japanese": "8-9　パス",
+    "english": "8 -9 pass",
+    "japanese": "8-9\u3000\u30d1\u30b9",
     "urls": [
       "https://app.box.com/s/mv5t98j18h7nr2j4rq1lku0g264w66yw"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Tackle",
     "name": "Kamae",
-    "english": "",
-    "japanese": "",
+    "english": "Body position one toes ready to launch into first 5 steps",
+    "japanese": "\u6700\u521d\u306e5\u6b69\u306b\u5165\u308b\u3001\u5f37\u3044\u30dc\u30c7\u30a3\u30fc\u30dd\u30b8\u30b7\u30e7\u30f3",
     "urls": [
       "https://app.box.com/s/4s78sc8rfg1l6iqb79i8ntb7sevxkkmu"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Tackle",
     "name": "Bolt",
-    "english": "",
+    "english": "Sprint start position\u3000Body height low (Under the ball)",
     "japanese": "",
-    "urls": []
+    "urls": [],
+    "images": []
   },
   {
     "category": "Tackle",
     "name": "Top",
-    "english": "",
-    "japanese": "",
-    "urls": []
+    "english": "Role of the 2nd man in the tackle- Target the ball",
+    "japanese": "2\u4eba\u76ee\u306e\u5f79\u5272\u3000\u30dc\u30fc\u30eb\u3078\u30d2\u30c3\u30c8",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Tackle",
     "name": "Chop",
-    "english": "",
-    "japanese": "",
+    "english": "1st man, aggressive leg tackle",
+    "japanese": "\u6700\u521d\u306e\u30c7\u30a3\u30d5\u30a7\u30f3\u30b9\u3000\u30a2\u30b0\u30ec\u30c3\u30b7\u30d6\u306b\u811a\u3078\u30bf\u30c3\u30af\u30eb",
     "urls": [
       "https://app.box.com/s/d1o3p11mb23m1fb5yijfcqqcqk24tegx"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Tackle",
     "name": "Squeeze",
-    "english": "",
-    "japanese": "",
+    "english": "Arm wrap & squeeze on the ball carrier",
+    "japanese": "\u30bf\u30c3\u30af\u30eb\u6642\u306e\u76f8\u624b\u3092\u63b4\u3080\u52d5\u4f5c",
     "urls": [
       "https://app.box.com/s/209mggpygrsiu5c8hw5rlh8apqunn09x"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Tackle",
     "name": "Doubles",
-    "english": "",
-    "japanese": "",
+    "english": "Chop & Top",
+    "japanese": "Chop\u3068Top\u30bf\u30c3\u30af\u30eb",
     "urls": [
       "https://app.box.com/s/bj9g2sr9upgnt7n9de0cx833ln6qu5cj"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Tackle",
     "name": "2 in Fight",
-    "english": "",
-    "japanese": "",
+    "english": "Doubles > Put pressure on Breakdown",
+    "japanese": "Doubles\u304b\u3089\u30d6\u30ec\u30a4\u30af\u30c0\u30a6\u30f3\u3078\u30d7\u30ec\u30c3\u30b7\u30e3\u30fc",
     "urls": [
       "https://app.box.com/s/0xohhs7vt4fjw5k9jixq518oo8y0z61s"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Tackle",
     "name": "Komata",
-    "english": "",
-    "japanese": "",
+    "english": "Steady feet into contact keeping them underneath you",
+    "japanese": "\u30bf\u30c3\u30af\u30eb\u6642\u306b\u4f53\u91cd\u3092\u5f8c\u308d\u3078\u304b\u3051\u305a\u3001\u8eab\u4f53\u306e\u4e0b\u3067\u8db3\u3092\u52d5\u304b\u3059",
     "urls": [
       "https://app.box.com/s/un8tsnv3doj7gawci7lc0u6q4gs2dj25"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Tackle",
     "name": "Step in",
-    "english": "",
-    "japanese": "",
+    "english": "Footwork into the tackle",
+    "japanese": "\u30bf\u30c3\u30af\u30eb\u306b\u5165\u308b\u3068\u304d\u306e\u30d5\u30c3\u30c8\u30ef\u30fc\u30af",
     "urls": [
       "https://app.box.com/s/rp73489qu5nx87iwveb0vdatkm46w5bx"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Tackle",
     "name": "Finish on Top",
-    "english": "",
-    "japanese": "",
-    "urls": []
+    "english": "Body on top of the attacker - studs in the ground.",
+    "japanese": "\u30a2\u30bf\u30c3\u30ab\u30fc\u306e\u4e0a\u306b\u5012\u308c\u308b\u3000\u811a\u3092\u5730\u9762\u306b\u565b\u307e\u305b\u308b",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Tackle",
     "name": "BIFF",
-    "english": "",
-    "japanese": "",
+    "english": "Stay in front, feet & body",
+    "japanese": "\u8eab\u4f53\u3068\u8db3\u3092\u6b63\u9762\u306b\u5165\u308c\u308b",
     "urls": [
       "https://app.box.com/s/209mggpygrsiu5c8hw5rlh8apqunn09x"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Tackle",
     "name": "Ikki",
-    "english": "",
-    "japanese": "",
+    "english": "Bounce up from the ground",
+    "japanese": "\u30b0\u30e9\u30a6\u30f3\u30c9\u304b\u3089\u3059\u3050\u306b\u7acb\u3061\u4e0a\u304c\u308b",
     "urls": [
       "https://app.box.com/s/ii06be87muj78jr02zj5r13bp9b5wbjz"
-    ]
+    ],
+    "images": []
   },
   {
     "category": "Transition Attack",
     "name": "Drag",
-    "english": "",
-    "japanese": "キックリターン パスして、戻る",
-    "urls": []
+    "english": "Kick Return > Pass and Return",
+    "japanese": "\u30ad\u30c3\u30af\u30ea\u30bf\u30fc\u30f3 \u30d1\u30b9\u3057\u3066\u3001\u623b\u308b",
+    "urls": [],
+    "images": []
   },
   {
     "category": "Transition Attack",
     "name": "Tower",
-    "english": "",
-    "japanese": "20m ラック",
-    "urls": []
+    "english": "20 metre Ruck",
+    "japanese": "20m \u30e9\u30c3\u30af",
+    "urls": [],
+    "images": []
   }
 ];
 const CATEGORY_COUNTS = {
@@ -2206,11 +2267,77 @@ const CATEGORY_COUNTS = {
   "Tackle": 12,
   "Transition Attack": 2
 };
-
-const UI = {
-  all: "すべて",
-  clear: "クリア",
-  noResult: "該当するプレーがありません。"
+const CATEGORY_COLORS = {
+  "Attack Philosophy": {
+    "accent": "#8c1530",
+    "soft": "#f6e8ec",
+    "pale": "#fbf4f6"
+  },
+  "Breakdown": {
+    "accent": "#a16207",
+    "soft": "#f6eddc",
+    "pale": "#fbf7ef"
+  },
+  "Contest": {
+    "accent": "#0f766e",
+    "soft": "#def2ef",
+    "pale": "#f1faf8"
+  },
+  "Defence": {
+    "accent": "#1d4ed8",
+    "soft": "#e5edff",
+    "pale": "#f4f7ff"
+  },
+  "Kick Sprint": {
+    "accent": "#c2410c",
+    "soft": "#fae8dd",
+    "pale": "#fdf4ee"
+  },
+  "Kicking": {
+    "accent": "#7c3aed",
+    "soft": "#eee6ff",
+    "pale": "#f8f5ff"
+  },
+  "Lineout": {
+    "accent": "#047857",
+    "soft": "#e0f3eb",
+    "pale": "#f2faf6"
+  },
+  "Maul": {
+    "accent": "#92400e",
+    "soft": "#f4e8da",
+    "pale": "#fbf6ef"
+  },
+  "Passing": {
+    "accent": "#0369a1",
+    "soft": "#dff0fa",
+    "pale": "#f2f9fd"
+  },
+  "Phase Attack": {
+    "accent": "#be123c",
+    "soft": "#fae2e9",
+    "pale": "#fdf3f6"
+  },
+  "Restart": {
+    "accent": "#4338ca",
+    "soft": "#e8e7fb",
+    "pale": "#f5f5ff"
+  },
+  "Scrum": {
+    "accent": "#334155",
+    "soft": "#e7eaee",
+    "pale": "#f5f6f8"
+  },
+  "Tackle": {
+    "accent": "#b91c1c",
+    "soft": "#fae3e3",
+    "pale": "#fdf3f3"
+  },
+  "Transition Attack": {
+    "accent": "#db2777",
+    "soft": "#fbe2ef",
+    "pale": "#fdf3f8"
+  }
 };
 
 let state = {
@@ -2241,15 +2368,23 @@ function highlight(text, query) {
   const normOriginal = normalize(original);
   const index = normOriginal.indexOf(q);
   if (index < 0) return safe;
-
-  const before = escapeHTML(original.slice(0, index));
-  const match = escapeHTML(original.slice(index, index + q.length));
-  const after = escapeHTML(original.slice(index + q.length));
-  return before + "<mark>" + match + "</mark>" + after;
+  return escapeHTML(original.slice(0, index)) +
+    "<mark>" + escapeHTML(original.slice(index, index + q.length)) + "</mark>" +
+    escapeHTML(original.slice(index + q.length));
 }
 
 function getCategories() {
   return Object.keys(CATEGORY_COUNTS);
+}
+
+function styleVars(category) {
+  const color = CATEGORY_COLORS[category] || CATEGORY_COLORS["Attack Philosophy"];
+  return `--cat-accent: ${color.accent}; --cat-soft: ${color.soft}; --cat-pale: ${color.pale};`;
+}
+
+function chipVars(category) {
+  const color = CATEGORY_COLORS[category];
+  return color ? `--chip-accent: ${color.accent};` : "";
 }
 
 function filteredPlays() {
@@ -2263,20 +2398,20 @@ function filteredPlays() {
       play.name,
       play.english,
       play.japanese,
-      ...(play.urls || [])
+      ...(play.urls || []),
+      ...(play.images || [])
     ].join(" "));
     return haystack.includes(q);
   });
 }
 
 function renderCategories() {
-  const chips = [`<button type="button" class="chip ${state.category === "all" ? "active" : ""}" data-category="all">${UI.all}</button>`];
-
+  const chips = [`<button type="button" class="chip ${state.category === "all" ? "active" : ""}" data-category="all">すべて</button>`];
   for (const category of getCategories()) {
-    chips.push(`<button type="button" class="chip ${state.category === category ? "active" : ""}" data-category="${escapeHTML(category)}">${escapeHTML(category)}</button>`);
+    chips.push(`<button type="button" class="chip ${state.category === category ? "active" : ""}" data-category="${escapeHTML(category)}" style="${chipVars(category)}">${escapeHTML(category)}</button>`);
   }
-
   $("categoryChips").innerHTML = chips.join("");
+
   document.querySelectorAll(".chip").forEach(chip => {
     chip.addEventListener("click", () => {
       state.category = chip.dataset.category;
@@ -2289,7 +2424,15 @@ function renderCategories() {
   });
 }
 
-function videoLinks(play) {
+function renderImages(play) {
+  const images = play.images || [];
+  if (!images.length) return "";
+  return `<div class="images">` + images.map((src, index) =>
+    `<img src="${escapeHTML(src)}" alt="${escapeHTML(play.name)} image ${index + 1}" loading="lazy">`
+  ).join("") + `</div>`;
+}
+
+function renderLinks(play) {
   const urls = play.urls || [];
   if (!urls.length) return "";
   return urls.map((url, idx) => {
@@ -2307,17 +2450,16 @@ function videoLinks(play) {
 
 function renderCards() {
   const plays = filteredPlays();
-  $("activeInfo").textContent = state.category === "all" ? "" : `カテゴリ: ${state.category}`;
+  $("activeInfo").textContent = state.category === "all" ? "" : `カテゴリ: ${state.category}`;
   $("empty").classList.toggle("show", plays.length === 0);
 
   const q = state.query.trim();
-
   $("cards").innerHTML = plays.map(play => {
-    const jp = play.japanese || "日本語訳なし";
-    const en = play.english || "No English description";
-    const links = videoLinks(play);
-
-    return `<article class="card">
+    const jp = play.japanese || "—";
+    const en = play.english || "—";
+    const images = renderImages(play);
+    const links = renderLinks(play);
+    return `<article class="card" style="${styleVars(play.category)}">
       <div class="card-top">
         <h2 class="name">${highlight(play.name, q)}</h2>
         <span class="category">${escapeHTML(play.category)}</span>
@@ -2334,6 +2476,7 @@ function renderCards() {
         </div>
       </div>
 
+      ${images ? `<div class="media">${images}</div>` : ""}
       ${links ? `<div class="links">${links}</div>` : ""}
     </article>`;
   }).join("");
