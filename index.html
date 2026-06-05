@@ -2491,7 +2491,8 @@ function render() {
 
 $("searchInput").addEventListener("input", event => {
   state.query = event.target.value;
-  renderCards();
+  state.category = "all";
+  render();
 });
 
 $("clearBtn").addEventListener("click", () => {
