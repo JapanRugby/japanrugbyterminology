@@ -832,7 +832,7 @@
             <h1 id="pageTitle">Terminology</h1>
             <p class="subtitle" id="subtitle">日本語と英語のプレー用語を、コール名・説明・カテゴリからすばやく検索。動画リファレンスにも即アクセスできます。</p>
             <div class="stats">
-              <span class="stat"><strong id="totalCount">186</strong><span id="totalLabel">件</span></span>
+              <span class="stat"><strong id="totalCount">185</strong><span id="totalLabel">件</span></span>
               <span class="stat"><strong id="categoryCount">14</strong><span id="categoryLabel">カテゴリ</span></span>
             </div>
           </div>
@@ -1317,22 +1317,26 @@ const PLAYS = [
   {
     "category": "Tackle",
     "name": "Bolt",
-    "english": "Sprint start position\nBody height low (Under the ball)",
+    "english": "Sprint start position
+Body height low (Under the ball)",
     "japanese": "",
     "urls": []
   },
   {
     "category": "Tackle",
     "name": "Top",
-    "english": "Role of the 2nd man in the tackle\n- Target the ball",
-    "japanese": "2人目の役割\nボールへヒット",
+    "english": "Role of the 2nd man in the tackle
+- Target the ball",
+    "japanese": "2人目の役割
+ボールへヒット",
     "urls": []
   },
   {
     "category": "Tackle",
     "name": "Chop",
     "english": "1st man, aggressive leg tackle",
-    "japanese": "最初のディフェンス\nアグレッシブに脚へタックル",
+    "japanese": "最初のディフェンス
+アグレッシブに脚へタックル",
     "urls": [
       "https://app.box.com/s/d1o3p11mb23m1fb5yijfcqqcqk24tegx"
     ]
@@ -1386,7 +1390,8 @@ const PLAYS = [
     "category": "Tackle",
     "name": "Finish on Top",
     "english": "Body on top of the attacker - studs in the ground.",
-    "japanese": "アタッカーの上に倒れる\n脚を地面に噛ませる",
+    "japanese": "アタッカーの上に倒れる
+脚を地面に噛ませる",
     "urls": []
   },
   {
@@ -1571,7 +1576,8 @@ const PLAYS = [
     "category": "Restart",
     "name": "A B C D E",
     "english": "Across the pitch - left to right. A left hand side, C Middle, E Right",
-    "japanese": "フィールドのコール\n左からABCDE",
+    "japanese": "フィールドのコール
+左からABCDE",
     "urls": []
   },
   {
@@ -1615,7 +1621,8 @@ const PLAYS = [
     "category": "Kick Sprint",
     "name": "Hot 3",
     "english": "1st ruck - closest 2 players lock in over the ball.",
-    "japanese": "キックレシーブ最初のラック\n近い2人がロック",
+    "japanese": "キックレシーブ最初のラック
+近い2人がロック",
     "urls": []
   },
   {
@@ -1636,14 +1643,16 @@ const PLAYS = [
     "category": "Kick Sprint",
     "name": "Crumbs",
     "english": "Players responsible for covering loose balls",
-    "japanese": "キックキャッチのこぼれ球を拾う\nプレーヤー",
+    "japanese": "キックキャッチのこぼれ球を拾う
+プレーヤー",
     "urls": []
   },
   {
     "category": "Kick Sprint",
     "name": "Ghost",
     "english": "Players responsible for covering loose balls in oppostion side",
-    "japanese": "キックキャッチのこぼれ球を拾う\nプレーヤー（相手側）",
+    "japanese": "キックキャッチのこぼれ球を拾う
+プレーヤー（相手側）",
     "urls": []
   },
   {
@@ -2405,7 +2414,7 @@ const PLAYS = [
     ]
   }
 ];
-const CATEGORY_COUNTS = {"Attack Philosophy": 16, "Breakdown": 13, "Contest": 6, "Defence": 21, "Kick Sprint": 9, "Kicking": 18, "Lineout": 18, "Maul": 14, "Passing": 14, "Phase Attack": 22, "Restart": 4, "Scrum": 17, "Tackle": 12, "Transition Attack": 2};
+const CATEGORY_COUNTS = {"Attack Philosophy": 15, "Phase Attack": 22, "Scrum": 17, "Tackle": 12, "Lineout": 18, "Restart": 4, "Kick Sprint": 9, "Defence": 21, "Breakdown": 13, "Contest": 6, "Passing": 14, "Maul": 14, "Transition Attack": 2, "Kicking": 18};
 
 const I18N = {
   ja: {
@@ -2532,9 +2541,9 @@ function renderCategories() {
   const t = I18N[state.lang];
   const chips = [];
   const allCount = PLAYS.length;
-  chips.push(`<button type="button" class="chip ${state.category === "all" ? "active" : ""}" data-category="all">${escapeHTML(t.all)} (${allCount})</button>`);
+  chips.push(`<button type="button" class="chip ${state.category === "all" ? "active" : ""}" data-category="all">${escapeHTML(t.all)}</button>`);
   for (const category of getCategories()) {
-    chips.push(`<button type="button" class="chip ${state.category === category ? "active" : ""}" data-category="${escapeHTML(category)}">${escapeHTML(category)} (${CATEGORY_COUNTS[category]})</button>`);
+    chips.push(`<button type="button" class="chip ${state.category === category ? "active" : ""}" data-category="${escapeHTML(category)}">${escapeHTML(category)}</button>`);
   }
   $("categoryChips").innerHTML = chips.join("");
   document.querySelectorAll(".chip").forEach(chip => {
