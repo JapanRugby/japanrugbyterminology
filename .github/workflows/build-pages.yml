@@ -1,0 +1,53 @@
+name: Build and deploy Terminology
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "terminology_combined_with_images.csv"
+      - "tools/generate_terminology_html.sh"
+      - ".github/workflows/build-pages.yml"
+      - "images/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate HTML from master CSV
+        run: |
+          mkdir -p public
+          bash tools/generate_terminology_html.sh terminology_combined_with_images.csv public/index.html
+          cp terminology_combined_with_images.csv public/terminology_combined_with_images.csv
+          if [ -d images ]; then cp -R images public/images; fi
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
