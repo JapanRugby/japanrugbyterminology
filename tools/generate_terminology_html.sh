@@ -783,6 +783,20 @@ html = f"""<!doctype html>
     </div>
   </main>
 
+
+  <div id="videoModal" class="video-modal" aria-hidden="true">
+    <div class="video-modal-panel" role="dialog" aria-modal="true" aria-label="Video player">
+      <div class="video-modal-head">
+        <div id="videoModalTitle" class="video-modal-title">Video</div>
+        <button id="videoModalClose" class="video-modal-close" type="button">Close</button>
+      </div>
+      <video id="videoModalPlayer" controls playsinline preload="metadata"></video>
+      <div class="video-modal-actions">
+        <a id="videoModalOpen" href="#" target="_blank" rel="noopener">Open file</a>
+      </div>
+    </div>
+  </div>
+
 <script>
 const PLAYS = {plays_json};
 const CATEGORY_COUNTS = {counts_json};
@@ -997,6 +1011,23 @@ $("clearBtn").addEventListener("click", () => {{
   $("searchInput").value = "";
   render();
   $("searchInput").focus();
+}});
+
+
+document.addEventListener("click", (event) => {{
+  const button = event.target.closest("[data-video-url]");
+  if (button) {{
+    event.preventDefault();
+    openVideoModal(button.getAttribute("data-video-url"), button.getAttribute("data-video-title"));
+    return;
+  }}
+  if (event.target.id === "videoModal" || event.target.id === "videoModalClose") {{
+    closeVideoModal();
+  }}
+}});
+
+document.addEventListener("keydown", (event) => {{
+  if (event.key === "Escape") closeVideoModal();
 }});
 
 render();
