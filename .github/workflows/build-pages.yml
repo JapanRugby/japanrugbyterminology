@@ -9,6 +9,7 @@ on:
       - "tools/generate_terminology_html.sh"
       - ".github/workflows/build-pages.yml"
       - "images/**"
+      - "videos/**"
   workflow_dispatch:
 
 permissions:
@@ -34,6 +35,7 @@ jobs:
           bash tools/generate_terminology_html.sh terminology_combined_with_images.csv public/index.html
           cp terminology_combined_with_images.csv public/terminology_combined_with_images.csv
           if [ -d images ]; then cp -R images public/images; fi
+          if [ -d videos ]; then cp -R videos public/videos; fi
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
