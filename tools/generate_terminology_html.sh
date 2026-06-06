@@ -559,7 +559,8 @@ html = f"""<!doctype html>
       padding-top: 4px;
     }}
 
-    .links a {{
+    .links a,
+    .video-link {{
       position: relative;
       text-decoration: none;
       display: inline-flex;
@@ -642,6 +643,68 @@ html = f"""<!doctype html>
       .grid {{ grid-template-columns: repeat(2, minmax(0, 1fr)); }}
     }}
 
+
+    .video-modal {{
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(25, 18, 20, .72);
+      backdrop-filter: blur(8px);
+    }}
+    .video-modal.open {{ display: flex; }}
+    .video-modal-panel {{
+      width: min(960px, 100%);
+      background: #120f10;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 30px 90px rgba(0,0,0,.45);
+      border: 1px solid rgba(255,255,255,.15);
+    }}
+    .video-modal-head {{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      color: #fff;
+    }}
+    .video-modal-title {{ font-size: 14px; font-weight: 900; line-height: 1.35; }}
+    .video-modal-close {{
+      border: 1px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.08);
+      color: #fff;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 900;
+      cursor: pointer;
+    }}
+    .video-modal video {{
+      display: block;
+      width: 100%;
+      max-height: min(72vh, 720px);
+      background: #000;
+    }}
+    .video-modal-actions {{
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px 14px 14px;
+      background: #120f10;
+    }}
+    .video-modal-actions a {{
+      color: #fff;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 900;
+    }}
+    .video-link {{ border: 0; cursor: pointer; font: inherit; }}
+
     @media (max-width: 640px) {{
       body {{
         background:
@@ -686,7 +749,8 @@ html = f"""<!doctype html>
       .lang-block {{ padding: 11px 12px; border-radius: 15px; }}
       .label {{ font-size: 10px; margin-bottom: 5px; }}
       .primary-text {{ font-size: 15.5px; line-height: 1.62; }}
-      .links a {{ width: 48px; height: 48px; }}
+      .links a,
+    .video-link {{ width: 48px; height: 48px; }}
       .video-icon {{ width: 22px; height: 22px; }}
     }}
   </style>
@@ -742,6 +806,50 @@ function escapeHTML(value) {{
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}}
+
+
+function isDirectVideo(url) {{
+  const clean = String(url || "").split("#")[0].split("?")[0].toLowerCase();
+  return /\.(mp4|webm|ogg|mov|m4v)$/.test(clean);
+}}
+
+function resolveVideoUrl(url) {{
+  const raw = String(url || "").trim();
+  if (!raw) return "";
+  if (/^(https?:|\/|\.\/|\.\.\/)/i.test(raw)) return raw;
+  if (raw.includes("/")) return raw;
+  if (isDirectVideo(raw)) return `videos/${{raw}}`;
+  return raw;
+}}
+
+function openVideoModal(url, title) {{
+  const resolvedUrl = resolveVideoUrl(url);
+  const modal = document.getElementById("videoModal");
+  const player = document.getElementById("videoModalPlayer");
+  const titleEl = document.getElementById("videoModalTitle");
+  const openLink = document.getElementById("videoModalOpen");
+  if (!modal || !player) return;
+  player.pause();
+  player.removeAttribute("src");
+  player.load();
+  player.src = resolvedUrl;
+  titleEl.textContent = title || "Video";
+  openLink.href = resolvedUrl;
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+  player.play().catch(() => {{}});
+}}
+
+function closeVideoModal() {{
+  const modal = document.getElementById("videoModal");
+  const player = document.getElementById("videoModalPlayer");
+  if (!modal || !player) return;
+  player.pause();
+  player.removeAttribute("src");
+  player.load();
+  modal.classList.remove("open");
+  modal.setAttribute("aria-hidden", "true");
 }}
 
 function highlight(text, query) {{
@@ -816,9 +924,20 @@ function renderLinks(play) {{
   const urls = play.urls || [];
   if (!urls.length) return "";
   return urls.map((url, idx) => {{
-    const label = `動画 ${{idx + 1}}`;
+    const label = `Video ${{idx + 1}}`;
+    const title = `${{play.name || "Video"}}${{urls.length > 1 ? ` ${{idx + 1}}` : ""}}`;
     const numberBadge = urls.length > 1 ? `<span class="link-index">${{idx + 1}}</span>` : "";
-    return `<a href="${{escapeHTML(url)}}" target="_blank" rel="noopener noreferrer" aria-label="${{escapeHTML(label)}}" title="${{escapeHTML(label)}}">
+    if (isDirectVideo(url)) {{
+      const resolvedUrl = resolveVideoUrl(url);
+      return `<button class="video-link" type="button" data-video-url="${{escapeHTML(resolvedUrl)}}" data-video-title="${{escapeHTML(title)}}" aria-label="Play ${{escapeHTML(label)}}" title="Play ${{escapeHTML(label)}}">
+      <svg class="video-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15 8.5V7A2 2 0 0 0 13 5H5A2 2 0 0 0 3 7v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1.5l5 3V5.5l-5 3ZM10 15V9l4 3-4 3Z"/>
+      </svg>
+      <span class="sr-only">Play ${{escapeHTML(label)}}</span>
+      ${{numberBadge}}
+    </button>`;
+    }}
+    return `<a href="${{escapeHTML(url)}}" target="_blank" rel="noopener noreferrer" aria-label="Open ${{escapeHTML(label)}}" title="Open ${{escapeHTML(label)}}">
       <svg class="video-icon" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M15 8.5V7A2 2 0 0 0 13 5H5A2 2 0 0 0 3 7v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1.5l5 3V5.5l-5 3ZM10 15V9l4 3-4 3Z"/>
       </svg>
@@ -827,7 +946,6 @@ function renderLinks(play) {{
     </a>`;
   }}).join("");
 }}
-
 function renderCards() {{
   const plays = filteredPlays();
   $("activeInfo").textContent = state.category === "all" ? "" : `カテゴリ: ${{state.category}}`;
